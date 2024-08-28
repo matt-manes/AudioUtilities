@@ -1,5 +1,4 @@
 #include "Taper.h"
-#include "Clamp.h"
 
 AudioUtilities::Taper::Taper::Taper() { init(0.5f, 0.0f, 1.0f); }
 
@@ -38,17 +37,20 @@ void AudioUtilities::Taper::Taper::init(float curveFactor, float min, float max)
     calcCoeffs();
 }
 
-float AudioUtilities::Taper::Taper::apply(float value) const
+float AudioUtilities::Taper::Taper::apply(float value)
 {
-    // If `curveFactor` is `0.5f`, we're not applying a taper
-    if (curveFactor == 0.5f) { return value; }
+    // If `curveFactor` is in this range, we're considering it linear
+    // so as to avoid dividing by 0 or almost 0.
+    if (linearRange.contains(curveFactor)) { return value; }
 
     // No need to scale back and forth if input is same as taper
     if (taperRange == inputRange) { return calcTaperedValue(value); }
 
     float scaledValue = Scale::scale(value, inputRange, taperRange);
     float scaledOutput = calcTaperedValue(scaledValue);
-    return Scale::scale(scaledOutput, taperRange, inputRange);
+    return Clamp::clamp(
+        Scale::scale(scaledOutput, taperRange, inputRange), inputRange
+    );
 }
 
 void AudioUtilities::Taper::Taper::setCurveFactor(float value)

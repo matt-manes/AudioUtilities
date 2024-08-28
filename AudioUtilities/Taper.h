@@ -2,6 +2,7 @@
 
 #include "Range.h"
 #include "Scale.h"
+#include "Clamp.h"
 #include <cmath>
 
 namespace AudioUtilities
@@ -44,7 +45,7 @@ namespace AudioUtilities
             Taper(Type type, Range::Range<float> inputRange);
 
             // Apply the taper to the given `value`.
-            float apply(float value) const;
+            float apply(float value);
 
             // Set the curve factor to use.
             // Values below `0.5` will be exponential and values above `0.5`
@@ -81,6 +82,8 @@ namespace AudioUtilities
 
             Range::Range<float> taperRange = Range::Range<float>(0.0f, 1.0f);
             Range::Range<float> inputRange;
+            Range::Range<float> linearRange =
+                Range::Range<float>(0.499f, 0.501f);
             float curveFactor = 0.5f;
             float b = 0.0f;
             float c = 0.0f;
