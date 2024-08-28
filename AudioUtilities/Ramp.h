@@ -2,6 +2,8 @@
 
 #include "Taper.h"
 #include "Range.h"
+#include "Clamp.h"
+#include "SampleRate.h"
 
 namespace AudioUtilities
 {
@@ -9,8 +11,9 @@ namespace AudioUtilities
     {
         /*
         Generate simple rising or falling ramps with optional exponential or
-        log curvature. Be sure to call this instance's `tick()` method in
-        every loop that corresponds to the given sample rate.
+        log curvature. Be sure to either call this instance's `tick()` method
+        or `getNextValue()` method in every loop that corresponds to the given
+        sample rate.
         */
         class Ramp
         {
@@ -68,6 +71,9 @@ namespace AudioUtilities
             inline float getStepSize() const { return stepSize; }
 
             // Returns the current value of the ramp.
+            // Any curve for this ramp is applied when this function is called.
+            // For best performance, call this function once and store in a
+            // local variable.
             inline float getCurrentVal() { return curve.apply(currentVal); }
 
             // The starting value of this ramp.
@@ -82,11 +88,11 @@ namespace AudioUtilities
             // Set the stop value of this ramp.
             void setStop(float value);
 
+            inline float getCurve() { return curve.getCurveFactor(); }
+
             // Set the curve of the ramp. Values are constrained to the interval
             // 0.01<->0.99.
             inline void setCurve(float value) { curve.setCurveFactor(value); }
-
-            inline float getCurve() { return curve.getCurveFactor(); }
 
             // Returns this ramp's length in samples.
             inline int getLengthSamples() const { return lengthSamples; }
@@ -95,7 +101,12 @@ namespace AudioUtilities
             void setLengthSamples(int samples);
 
             // Set ramp length in milliseconds.
-            void setLengthMilliseconds(float milliseconds);
+            inline void setLengthMilliseconds(float milliseconds)
+            {
+                setLengthSamples(
+                    SampleRate::fromMilliseconds(milliseconds, sampleRate)
+                );
+            }
 
             // Reverse this ramp's direction.
             void reverse();
@@ -105,6 +116,7 @@ namespace AudioUtilities
             int sampleRate, lengthSamples;
             bool active = false;
             bool finished = false;
+            // The endpoints of this ramp.
             Range::Range<float> range = Range::Range<float>(0.0f, 1.0f);
             float currentVal = 0.0f;
             float stepSize;
@@ -116,10 +128,16 @@ namespace AudioUtilities
             }
 
             // Make sure `currentVal` doesn't accidentally exceed stop value
-            void clampCurrentVal();
+            inline void clampCurrentVal()
+            {
+                currentVal = Clamp::clamp(currentVal, range);
+            }
 
             // This can be overridden to implement different ramp shapes.
-            virtual void incrementCurrentVal();
+            inline virtual void incrementCurrentVal()
+            {
+                currentVal += stepSize;
+            }
 
             bool stopValueReached() const;
         };

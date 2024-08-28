@@ -1,6 +1,4 @@
 #include "Ramp.h"
-#include "Clamp.h"
-#include "SampleRate.h"
 
 AudioUtilities::Ramp::Ramp::Ramp()
     : lengthSamples(1),
@@ -42,11 +40,6 @@ AudioUtilities::Ramp::Ramp::Ramp(
 {
     range.setBounds(startVal, stopVal);
     calculateStepSize();
-}
-
-void AudioUtilities::Ramp::Ramp::incrementCurrentVal()
-{
-    currentVal += stepSize;
 }
 
 void AudioUtilities::Ramp::Ramp::tick()
@@ -96,24 +89,10 @@ void AudioUtilities::Ramp::Ramp::setLengthSamples(int samples)
     calculateStepSize();
 }
 
-void AudioUtilities::Ramp::Ramp::setLengthMilliseconds(float milliseconds)
-{
-    setLengthSamples(SampleRate::fromMilliseconds(milliseconds, sampleRate));
-}
-
 void AudioUtilities::Ramp::Ramp::reverse()
 {
     range.reverse();
     calculateStepSize();
-}
-
-void AudioUtilities::Ramp::Ramp::clampCurrentVal()
-{
-    if (isReverse())
-    {
-        currentVal = Clamp::clamp(currentVal, getStop(), getStart());
-    }
-    else { currentVal = Clamp::clamp(currentVal, getStart(), getStop()); }
 }
 
 bool AudioUtilities::Ramp::Ramp::stopValueReached() const
