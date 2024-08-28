@@ -14,7 +14,6 @@ namespace AudioUtilities
         */
         class Ramp
         {
-
           public:
 
             Ramp();
@@ -82,6 +81,12 @@ namespace AudioUtilities
 
             // Set the stop value of this ramp.
             void setStop(float value);
+
+            // Set the curve of the ramp. Values are constrained to the interval
+            // 0.01<->0.99.
+            inline void setCurve(float value) { curve.setCurveFactor(value); }
+
+            inline float getCurve() { return curve.getCurveFactor(); }
 
             // Returns this ramp's length in samples.
             inline int getLengthSamples() const { return lengthSamples; }
