@@ -36,7 +36,6 @@
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Index.cpp" />
     <ClCompile Include="Ramp.cpp" />
-    <ClCompile Include="Range.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Taper.cpp" />
   </ItemGroup>

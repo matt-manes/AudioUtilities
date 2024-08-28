@@ -68,8 +68,5 @@
     <ClCompile Include="Scale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Range.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
