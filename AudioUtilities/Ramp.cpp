@@ -66,6 +66,12 @@ void AudioUtilities::Ramp::Ramp::tick()
     }
 }
 
+float AudioUtilities::Ramp::Ramp::getNextValue()
+{
+    tick();
+    return getCurrentVal();
+}
+
 void AudioUtilities::Ramp::Ramp::reset()
 {
     currentVal = range.getStart();

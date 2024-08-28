@@ -39,6 +39,10 @@ namespace AudioUtilities
             // sample at the sample rate.
             void tick();
 
+            // This will call `tick()` for you and return the new value.
+            // Don't use this and `tick()` or your ramp will be twice the speed.
+            float getNextValue();
+
             // Start the ramp.
             inline void start() { active = true; }
 
