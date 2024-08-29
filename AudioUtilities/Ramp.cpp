@@ -53,8 +53,13 @@ void AudioUtilities::Ramp::Ramp::tick()
         if (stopValueReached())
         {
             clampCurrentVal();
-            active = false;
-            finished = true;
+            if (bidirectional) { reverse(); }
+            if (freeRunning) { reset(); }
+            else
+            {
+                active = false;
+                finished = true;
+            }
         }
     }
 }

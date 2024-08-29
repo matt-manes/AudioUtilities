@@ -110,6 +110,10 @@ namespace AudioUtilities
 
             void setLengthSteps(int numSteps);
 
+            inline void setFreeRunning(bool value) { freeRunning = value; }
+
+            inline void setBidirectional(bool value) { bidirectional = value; }
+
             // Reverse this ramp's direction.
             void reverse();
 
@@ -123,6 +127,8 @@ namespace AudioUtilities
             float currentVal = 0.0f;
             float stepSize;
             Taper::Taper curve;
+            bool freeRunning = false;
+            bool bidirectional = false;
 
             inline void calculateStepSize()
             {
