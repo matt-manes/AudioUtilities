@@ -108,6 +108,8 @@ namespace AudioUtilities
                 );
             }
 
+            void setLengthSteps(int numSteps);
+
             // Reverse this ramp's direction.
             void reverse();
 
