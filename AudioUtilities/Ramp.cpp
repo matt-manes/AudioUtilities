@@ -91,7 +91,9 @@ void AudioUtilities::Ramp::Ramp::setLengthSamples(int samples)
 
 void AudioUtilities::Ramp::Ramp::setLengthSteps(int numSteps)
 {
-    setLengthSamples(numSteps * range.getStepSize(numSteps));
+    // Could just use `setLengthSamples()` instead, but `setLengthSteps()`
+    // is more intuitive naming.
+    setLengthSamples(numSteps);
 }
 
 void AudioUtilities::Ramp::Ramp::reverse()
