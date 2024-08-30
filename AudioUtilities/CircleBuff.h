@@ -16,6 +16,8 @@ namespace AudioUtilities
 
             CircleBuff(int size) { resize(size); }
 
+            // ========================== Write ========================== //
+            //
             // Write to the buffer then increment write position
             virtual void write(T val) { data[writedex++.getLower()] = val; }
 
@@ -30,9 +32,11 @@ namespace AudioUtilities
             // Note: does not increment internal write pointer
             virtual void write(T val, Index::Index index)
             {
-                index.setBounds(0, data.size());
+                index.setBounds(0, data.size() - 1);
                 write(val, index.getLower());
             }
+
+            // ========================== Read ========================== //
 
             // Read from the buffer at the specified index
             T read(int index) { return data[index % data.size()]; }
@@ -40,11 +44,12 @@ namespace AudioUtilities
             T operator[](int index) const { return data[index % data.size()]; }
 
             // Will only work with types that define `+`, `*`, and `-` operators
+            // and can be converted to a float.
             // Interpolates between two nearest values if `index` has a decimal
             // component
             float operator[](Index::Index index) const
             {
-                index.setBounds(0, data.size());
+                index.setBounds(0, data.size() - 1);
                 return Blend::blend(
                     data[index.getLower()],
                     data[index.getUpper()],
@@ -53,14 +58,17 @@ namespace AudioUtilities
             }
 
             // Will only work with types that define `+`, `*`, and `-` operators
+            // and can be converted to a float.
             // Interpolates between two nearest values if `index` has a decimal
             // component
             float operator[](float index) const
             {
-                Index::Index readex(data.size());
+                Index::Index readex(data.size() - 1);
                 readex = index;
                 return operator[](readex);
             }
+
+            // ===========================================================  //
 
             // The size of this buffer
             int size() { return data.size(); }
@@ -81,6 +89,9 @@ namespace AudioUtilities
             // Returns the index that will be written to on the next call to
             // `write(val)`
             int getWritePosition() { return writedex.getLower(); }
+
+            // Returns the underlying data vector
+            inline std::vector<T> *getData() { return &data; }
 
           protected:
 
