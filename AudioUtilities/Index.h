@@ -55,7 +55,7 @@ namespace AudioUtilities
             // Set the minimum and maximum indicies.
             void setBounds(int min, int max);
 
-            // Set bounds with `Range` instance
+            // Set the minimum and maximum indicies.
             void setBounds(Range::Range<int> bounds);
 
             // Sets index to the given value, wrapping if neccessary.
