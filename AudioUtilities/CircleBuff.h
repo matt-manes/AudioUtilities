@@ -35,11 +35,13 @@ namespace AudioUtilities
             }
 
             // Read from the buffer at the specified index
-            T read(int index) { return data[index]; }
+            T read(int index) { return data[index % data.size()]; }
 
             T operator[](int index) const { return data[index % data.size()]; }
 
             // Will only work with types that define `+`, `*`, and `-` operators
+            // Interpolates between two nearest values if `index` has a decimal
+            // component
             float operator[](Index::Index index) const
             {
                 index.setBounds(0, data.size());
@@ -51,6 +53,8 @@ namespace AudioUtilities
             }
 
             // Will only work with types that define `+`, `*`, and `-` operators
+            // Interpolates between two nearest values if `index` has a decimal
+            // component
             float operator[](float index) const
             {
                 Index::Index readex(data.size());
@@ -58,6 +62,7 @@ namespace AudioUtilities
                 return operator[](readex);
             }
 
+            // The size of this buffer
             int size() { return data.size(); }
 
             // Resize the buffer and write indexer
@@ -67,13 +72,17 @@ namespace AudioUtilities
                 writedex.setMax(size - 1);
             }
 
+            // Reset all indicies to default values
             void flush() { data.assign(data.size(), T()); }
 
+            // Returns a pointer to the writing `Index` object
             Index::Index *getWritedex() { return &writedex; }
 
+            // Returns the index that will be written to on the next call to
+            // `write(val)`
             int getWritePosition() { return writedex.getLower(); }
 
-          private:
+          protected:
 
             std::vector<T> data;
 
