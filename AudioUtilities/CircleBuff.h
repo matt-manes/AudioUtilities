@@ -38,9 +38,6 @@ namespace AudioUtilities
 
             // ========================== Read ========================== //
 
-            // Read from the buffer at the specified index
-            T read(int index) { return data[index % data.size()]; }
-
             T operator[](int index) const { return data[index % data.size()]; }
 
             // Will only work with types that define `+`, `*`, and `-` operators

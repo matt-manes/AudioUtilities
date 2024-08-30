@@ -84,21 +84,21 @@ namespace CircleBuffTest
             for (int i = 0; i < buff.size(); ++i)
             {
                 // Assert all values are default
-                Assert::IsTrue(test == buff.read(i));
+                Assert::IsTrue(test == buff[i]);
                 // Change `stopValue`
                 buff.write(AudioUtilities::Range::Range<int>(0,i));
             }
             for (int i = 0; i < buff.size(); ++i)
             {
                 test.setStop(i);
-                Assert::IsTrue(test == buff.read(i));
+                Assert::IsTrue(test == buff[i]);
             }
             test = AudioUtilities::Range::Range<int>();
             buff.flush();
             // Test flush put them all back to default
             for (int i = 0; i < buff.size(); ++i)
             {
-                Assert::IsTrue(test == buff.read(i));
+                Assert::IsTrue(test == buff[i]);
             }
         }
 
