@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScaleTest", "ScaleTest\Scal
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RangeTest", "RangeTest\RangeTest.vcxproj", "{08F0009E-D78C-47D0-8CCC-D40C683CD8E3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CircleBuffTest", "CircleBuffTest\CircleBuffTest.vcxproj", "{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{08F0009E-D78C-47D0-8CCC-D40C683CD8E3}.Release|x64.Build.0 = Release|x64
 		{08F0009E-D78C-47D0-8CCC-D40C683CD8E3}.Release|x86.ActiveCfg = Release|Win32
 		{08F0009E-D78C-47D0-8CCC-D40C683CD8E3}.Release|x86.Build.0 = Release|Win32
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Debug|x64.ActiveCfg = Debug|x64
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Debug|x64.Build.0 = Debug|x64
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Debug|x86.ActiveCfg = Debug|Win32
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Debug|x86.Build.0 = Debug|Win32
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Release|x64.ActiveCfg = Release|x64
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Release|x64.Build.0 = Release|x64
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Release|x86.ActiveCfg = Release|Win32
+		{84C8FB78-3F5B-46C8-AC41-1E2BC3EC497B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
