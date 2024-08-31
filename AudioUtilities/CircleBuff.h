@@ -17,7 +17,7 @@ namespace AudioUtilities
             CircleBuff(int size) { resize(size); }
 
             // ========================== Write ========================== //
-            //
+
             // Write to the buffer then increment write position
             virtual void write(T val) { data[writedex++.getLower()] = val; }
 

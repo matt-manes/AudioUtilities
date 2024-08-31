@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Range.h"
+#include <cmath>
 
 namespace AudioUtilities
 {
@@ -8,6 +9,11 @@ namespace AudioUtilities
     {
         /*
         Auto-wrapping index that can have a decimal component.
+
+        Index bounds are clamped to 0 and above.
+
+        If you try to make the minimum index less than the max,
+        they will be automatically swapped, and vice versa.
 
         Use `getLower()`, `getUpper()`, and `getDecimal()` along with an
         interpolator to get container values between indicies.
@@ -58,6 +64,9 @@ namespace AudioUtilities
             // Set the minimum and maximum indicies.
             void setBounds(Range::Range<int> bounds);
 
+            // Returns the start and stop indicies
+            Range::Range<int> getBounds() { return bounds; }
+
             // Sets index to the given value, wrapping if neccessary.
             void setIndex(float value);
 
@@ -77,13 +86,11 @@ namespace AudioUtilities
             // Returns the decimal portion of the index.
             inline float getDecimal() const { return decimal; }
 
+            // Returns the minimum index
             inline int getMin() const { return bounds.getStart(); }
 
-            // inline int getStart() const { return bounds.getStart(); }
-
+            // Returns the maximum index
             inline int getMax() const { return bounds.getStop(); }
-
-            // inline int getStop() const { return bounds.getStop(); }
 
           private:
 
@@ -118,6 +125,10 @@ namespace AudioUtilities
             // Uses current value of `full` to set `lower`, `upper`, and
             // `decimal` members.
             void splitIndex();
+
+            // Set negative values to 0 and ensure `start` is less than `stop`.
+            Range::Range<int> enforceBoundsConstraints(Range::Range<int> bounds
+            );
         };
 
     } // namespace Index

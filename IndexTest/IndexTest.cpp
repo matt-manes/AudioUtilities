@@ -66,12 +66,12 @@ TEST_CLASS(IndexTest)
 			Assert::AreEqual(5, index.getLower());
 			Assert::AreEqual(0.0f, index.getDecimal(), 0.1f);
 			index.setIndex(12.2f);
-			Assert::AreEqual(5.2f, index.getFull(), 0.1f);
-			Assert::AreEqual(6, index.getUpper());
-			Assert::AreEqual(5, index.getLower());
+			Assert::AreEqual(6.2f, index.getFull(), 0.1f);
+			Assert::AreEqual(7, index.getUpper());
+			Assert::AreEqual(6, index.getLower());
 			Assert::AreEqual(0.2f, index.getDecimal(), 0.1f);
 			index.setMin(1);
-			Assert::AreEqual(5.2f, index.getFull(), 0.1f);
+			Assert::AreEqual(6.2f, index.getFull(), 0.1f);
 		}
 
 		TEST_METHOD(testOperators)
@@ -104,6 +104,23 @@ TEST_CLASS(IndexTest)
 			// chain - ((2 * 3) + 2) * 3 / 2 = 12 which should be full = 1
 			index = ((index * 3) + 2) * 3 / 2;
 			Assert::AreEqual(1.0f, index.getFull(), 0.1f);
+		}
+
+		TEST_METHOD(TestIndexBelowMin)
+		{
+			AudioUtilities::Index::Index index = AudioUtilities::Index::Index(10);
+			index -= 1023.48f;
+			auto bounds = index.getBounds();
+			// add padding
+			bounds.setStop(bounds.getStop() + 1);
+			Assert::IsTrue(bounds.contains(index.getFull()));
+
+			index.setMin(-500);
+			index -= 1023.48f;
+			bounds = index.getBounds();
+			// add padding
+			bounds.setStop(bounds.getStop() + 1);
+			Assert::IsTrue(bounds.contains(index.getFull()));
 		}
 };
 }
