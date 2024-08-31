@@ -59,8 +59,17 @@ namespace AudioUtilities
 
             inline T getStop() const { return stop; }
 
+            // Returns the lower of `start` and `stop`
+            T getLower() const { return std::fmin(start, stop); }
+
+            // Returns the higher of `start` and `stop`
+            T getUpper() const { return std::fmax(start, stop); }
+
             // Returns the difference between `stop` and `start`.
             inline T getDelta() const { return delta; }
+
+            // Returns the absolute value of the delta
+            T getAbsDelta() const { return std::abs(delta); }
 
             // Swaps the `start` and `stop` values of this instance.
             inline void reverse()

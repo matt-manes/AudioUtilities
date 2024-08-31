@@ -73,5 +73,17 @@ namespace RangeTest
             Assert::AreEqual(-10.0f, range.getStepSize(10), 0.00001f);
             Assert::AreEqual(10, range.getNumSteps(10.0f));
         }
+
+        TEST_METHOD(TestGetters)
+        {
+            AudioUtilities::Range::Range<float> range(0.0f, 100.0f);
+            Assert::AreEqual(0.0f, range.getLower());
+            Assert::AreEqual(100.0f, range.getUpper());
+            Assert::AreEqual(range.getStart(), range.getLower());
+            Assert::AreEqual(range.getStop(), range.getUpper());
+            range.reverse();
+            Assert::AreEqual(range.getStart(), range.getUpper());
+            Assert::AreEqual(range.getStop(), range.getLower());
+        }
     };
 }
