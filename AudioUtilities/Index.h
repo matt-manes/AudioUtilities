@@ -41,22 +41,22 @@ namespace AudioUtilities
             Index &operator--();
             Index operator--(int);
 
-            Index &operator=(float value);
-            Index &operator+(float value);
-            Index &operator-(float value);
-            Index &operator*(float value);
-            Index &operator/(float value);
+            Index &operator=(float val);
+            Index &operator+(float val);
+            Index &operator-(float val);
+            Index &operator*(float val);
+            Index &operator/(float val);
 
-            Index &operator+=(float value);
-            Index &operator-=(float value);
-            Index &operator*=(float value);
-            Index &operator/=(float value);
+            Index &operator+=(float val);
+            Index &operator-=(float val);
+            Index &operator*=(float val);
+            Index &operator/=(float val);
 
             // Set the minimum index.
-            void setMin(int value);
+            void setMin(int val);
 
             // Set the maximum index.
-            void setMax(int value);
+            void setMax(int val);
 
             // Set the minimum and maximum indicies.
             void setBounds(int min, int max);
@@ -68,7 +68,7 @@ namespace AudioUtilities
             Range::Range<int> getBounds() { return bounds; }
 
             // Sets index to the given value, wrapping if neccessary.
-            void setIndex(float value);
+            void setIndex(float val);
 
             // Returns the current floating point index.
             inline float getFull() const { return full; }

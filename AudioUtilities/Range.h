@@ -41,16 +41,16 @@ namespace AudioUtilities
                 calcDelta();
             }
 
-            inline void setStart(T value)
+            inline void setStart(T val)
             {
-                start = value;
+                start = val;
                 parseLowerUpper();
                 calcDelta();
             }
 
-            inline void setStop(T value)
+            inline void setStop(T val)
             {
-                stop = value;
+                stop = val;
                 parseLowerUpper();
                 calcDelta();
             }
@@ -114,24 +114,24 @@ namespace AudioUtilities
             `stop` is the highest value.
             */
             inline bool contains(
-                float value, Inclusion boundsInclusion = Inclusion::Both
+                float val, Inclusion boundsInclusion = Inclusion::Both
             )
             {
                 switch (boundsInclusion)
                 {
-                    case Both: return inclusion(value);
-                    case None: return noInclusion(value);
-                    case Lower: return lowerInclusion(value);
-                    case Upper: return upperInclusion(value);
+                    case Both: return inclusion(val);
+                    case None: return noInclusion(val);
+                    case Lower: return lowerInclusion(val);
+                    case Upper: return upperInclusion(val);
                     case Start:
                     {
-                        if (isNegative()) { return upperInclusion(value); }
-                        return lowerInclusion(value);
+                        if (isNegative()) { return upperInclusion(val); }
+                        return lowerInclusion(val);
                     }
                     case Stop:
                     {
-                        if (isNegative()) { return lowerInclusion(value); }
-                        return upperInclusion(value);
+                        if (isNegative()) { return lowerInclusion(val); }
+                        return upperInclusion(val);
                     }
                 }
             }
@@ -162,27 +162,27 @@ namespace AudioUtilities
             }
 
             // Whether `value` is in this range, inclusive of bounds.
-            bool inclusion(float value)
+            bool inclusion(float val)
             {
-                return (lower <= value) && (value <= upper);
+                return (lower <= val) && (val <= upper);
             }
 
             // Whether `value` is in this range, inclusive of lower bound only.
-            bool lowerInclusion(float value)
+            bool lowerInclusion(float val)
             {
-                return (lower <= value) && (value < upper);
+                return (lower <= val) && (val < upper);
             }
 
             // Whether `value` is in this range, inclusive of upper bound only.
-            bool upperInclusion(float value)
+            bool upperInclusion(float val)
             {
-                return (lower < value) && (value <= upper);
+                return (lower < val) && (val <= upper);
             }
 
             // Whether `value` is in this range, exclusive of bounds.
-            bool noInclusion(float value)
+            bool noInclusion(float val)
             {
-                return (lower < value) && (value < upper);
+                return (lower < val) && (val < upper);
             }
         };
     } // namespace Range

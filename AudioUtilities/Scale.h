@@ -7,11 +7,11 @@ namespace AudioUtilities
     namespace Scale
     {
         float scale(
-            float value, float oldMin, float oldMax, float newMin, float newMax
+            float val, float oldMin, float oldMax, float newMin, float newMax
         );
 
         float scale(
-            float value,
+            float val,
             Range::Range<float> oldRange,
             Range::Range<float> newRange
         );
@@ -31,16 +31,10 @@ namespace AudioUtilities
             Range::Range<float> a, b;
 
             // Convert `value` from range `a` to range `b`.
-            inline float fromAToB(float value) const
-            {
-                return scale(value, a, b);
-            }
+            inline float fromAToB(float val) const { return scale(val, a, b); }
 
             // Convert `value` from range `b` to range `a`.
-            inline float fromBToA(float value) const
-            {
-                return scale(value, b, a);
-            }
+            inline float fromBToA(float val) const { return scale(val, b, a); }
         };
 
     } // namespace Scale

@@ -16,14 +16,14 @@ void AudioUtilities::Index::Index::wrap()
     }
 }
 
-void AudioUtilities::Index::Index::setMin(int value)
+void AudioUtilities::Index::Index::setMin(int val)
 {
-    setBounds(value, bounds.getStop());
+    setBounds(val, bounds.getStop());
 };
 
-void AudioUtilities::Index::Index::setMax(int value)
+void AudioUtilities::Index::Index::setMax(int val)
 {
-    setBounds(bounds.getStart(), value);
+    setBounds(bounds.getStart(), val);
 };
 
 void AudioUtilities::Index::Index::setBounds(int min, int max)
@@ -58,82 +58,68 @@ AudioUtilities::Range::Range<int> AudioUtilities::Index::Index::
     return bounds;
 }
 
-void AudioUtilities::Index::Index::setIndex(float value)
+void AudioUtilities::Index::Index::setIndex(float val)
 {
-    full = value;
+    full = val;
     wrap();
     splitIndex();
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator=(
-    float value
-)
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator=(float val)
 {
-    setIndex(value);
+    setIndex(val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator+(
-    float value
-)
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator+(float val)
 {
-    setIndex(full + value);
+    setIndex(full + val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator-(
-    float value
-)
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator-(float val)
 {
-    setIndex(full - value);
+    setIndex(full - val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator*(
-    float value
-)
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator*(float val)
 {
-    setIndex(full * value);
+    setIndex(full * val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator/(
-    float value
-)
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator/(float val)
 {
-    setIndex(full / value);
+    setIndex(full / val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator+=(
-    float value
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator+=(float val
 )
 {
-    *this = *this + value;
+    *this = *this + val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator-=(
-    float value
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator-=(float val
 )
 {
-    *this = *this - value;
+    *this = *this - val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator*=(
-    float value
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator*=(float val
 )
 {
-    *this = *this * value;
+    *this = *this * val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator/=(
-    float value
+AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator/=(float val
 )
 {
-    *this = *this / value;
+    *this = *this / val;
     return *this;
 }
 

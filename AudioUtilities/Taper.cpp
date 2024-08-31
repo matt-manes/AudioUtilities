@@ -37,25 +37,25 @@ void AudioUtilities::Taper::Taper::init(float curveFactor, float min, float max)
     calcCoeffs();
 }
 
-float AudioUtilities::Taper::Taper::apply(float value)
+float AudioUtilities::Taper::Taper::apply(float val)
 {
     // If `curveFactor` is in this range, we're considering it linear
     // so as to avoid dividing by 0 or almost 0.
-    if (linearRange.contains(curveFactor)) { return value; }
+    if (linearRange.contains(curveFactor)) { return val; }
 
     // No need to scale back and forth if input is same as taper
-    if (taperRange == inputRange) { return calcTaperedValue(value); }
+    if (taperRange == inputRange) { return calcTaperedValue(val); }
 
-    float scaledValue = Scale::scale(value, inputRange, taperRange);
+    float scaledValue = Scale::scale(val, inputRange, taperRange);
     float scaledOutput = calcTaperedValue(scaledValue);
     return Clamp::clamp(
         Scale::scale(scaledOutput, taperRange, inputRange), inputRange
     );
 }
 
-void AudioUtilities::Taper::Taper::setCurveFactor(float value)
+void AudioUtilities::Taper::Taper::setCurveFactor(float val)
 {
-    curveFactor = Clamp::clamp(value, 0.01f, 0.99f);
+    curveFactor = Clamp::clamp(val, 0.01f, 0.99f);
     calcCoeffs();
 }
 

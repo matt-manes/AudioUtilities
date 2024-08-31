@@ -43,7 +43,7 @@ namespace AudioUtilities
 
             // This will call `tick()` for you and return the new value.
             // Don't use this and `tick()` or your ramp will be twice the speed.
-            float getNextValue();
+            float getNext();
 
             // Start the ramp.
             inline void start() { active = true; }
@@ -74,25 +74,25 @@ namespace AudioUtilities
             // Any curve for this ramp is applied when this function is called.
             // For best performance, call this function once and store in a
             // local variable.
-            inline float getCurrentVal() { return curve.apply(currentVal); }
+            inline float read() { return curve.apply(currentVal); }
 
             // The starting value of this ramp.
             inline float getStart() const { return range.getStart(); }
 
             // Set the start value of this ramp.
-            void setStart(float value);
+            void setStart(float val);
 
             // The stop value of this ramp.
             inline float getStop() const { return range.getStop(); }
 
             // Set the stop value of this ramp.
-            void setStop(float value);
+            void setStop(float val);
 
             inline float getCurve() { return curve.getCurveFactor(); }
 
             // Set the curve of the ramp. Values are constrained to the interval
             // 0.01<->0.99.
-            inline void setCurve(float value) { curve.setCurveFactor(value); }
+            inline void setCurve(float val) { curve.setCurveFactor(val); }
 
             // Returns this ramp's length in samples.
             inline int getLengthSamples() const { return lengthSamples; }
@@ -110,9 +110,9 @@ namespace AudioUtilities
 
             void setLengthSteps(int numSteps);
 
-            inline void setFreeRunning(bool value) { freeRunning = value; }
+            inline void setFreeRunning(bool val) { freeRunning = val; }
 
-            inline void setBidirectional(bool value) { bidirectional = value; }
+            inline void setBidirectional(bool val) { bidirectional = val; }
 
             // Reverse this ramp's direction.
             void reverse();

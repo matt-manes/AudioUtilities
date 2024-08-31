@@ -64,10 +64,10 @@ void AudioUtilities::Ramp::Ramp::tick()
     }
 }
 
-float AudioUtilities::Ramp::Ramp::getNextValue()
+float AudioUtilities::Ramp::Ramp::getNext()
 {
     tick();
-    return getCurrentVal();
+    return read();
 }
 
 void AudioUtilities::Ramp::Ramp::reset()

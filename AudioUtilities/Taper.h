@@ -45,19 +45,19 @@ namespace AudioUtilities
             Taper(Type type, Range::Range<float> inputRange);
 
             // Apply the taper to the given `value`.
-            float apply(float value);
+            float apply(float val);
 
             // Set the curve factor to use.
             // Values below `0.5` will be exponential and values above `0.5`
             // will be logarithmic. Value is constrained to be between `0.01`
             // and `0.99`.
-            void setCurveFactor(float value);
+            void setCurveFactor(float val);
 
             // Set the expected input minimum.
-            inline void setInputMin(float value) { inputRange.setStart(value); }
+            inline void setInputMin(float val) { inputRange.setStart(val); }
 
             // Set the expected input maximum.
-            inline void setInputMax(float value) { inputRange.setStop(value); }
+            inline void setInputMax(float val) { inputRange.setStop(val); }
 
             // Set the expected input range.
             inline void setInputRange(Range::Range<float> range)
@@ -94,9 +94,9 @@ namespace AudioUtilities
 
             void calcCoeffs();
 
-            inline float calcTaperedValue(float value) const
+            inline float calcTaperedValue(float val) const
             {
-                return b * (exp(c * value) - 1);
+                return b * (exp(c * val) - 1);
             }
         };
     } // namespace Taper

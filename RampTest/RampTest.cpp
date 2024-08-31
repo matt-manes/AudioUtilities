@@ -12,7 +12,7 @@ TEST_CLASS(RampTest)
     TEST_METHOD(TestConstruction)
     {
         AudioUtilities::Ramp::Ramp ramp = AudioUtilities::Ramp::Ramp(500.0f, 1000, 0.0f, 1.0f);
-        Assert::AreEqual(0.0f, ramp.getCurrentVal(), 0.00001f);
+        Assert::AreEqual(0.0f, ramp.read(), 0.00001f);
         Assert::IsFalse(ramp.isActive());
         Assert::AreEqual(1.0f/500.0f, ramp.getStepSize(), 0.00001f);
         Assert::AreEqual(500, ramp.getLengthSamples());
@@ -28,13 +28,13 @@ TEST_CLASS(RampTest)
 			if (i < 100)
             {
                 Assert::IsFalse(ramp.isActive());
-                Assert::AreEqual(ramp.getStart(), ramp.getCurrentVal());
+                Assert::AreEqual(ramp.getStart(), ramp.read());
             }
             if (i == 100) { ramp.start();}
-            if (i == 350) { Assert::AreEqual(0.5f, ramp.getCurrentVal(), 0.00001f); }
+            if (i == 350) { Assert::AreEqual(0.5f, ramp.read(), 0.00001f); }
             if (i > 600) 
             {
-                Assert::AreEqual(ramp.getStop(), ramp.getCurrentVal(), 0.00001f);
+                Assert::AreEqual(ramp.getStop(), ramp.read(), 0.00001f);
                 Assert::IsFalse(ramp.isActive());
             }
             ramp.tick();
@@ -50,7 +50,7 @@ TEST_CLASS(RampTest)
         float currentValue;
         for (int i = 0; i < 1000; i++)
         {
-            currentValue = ramp.getNextValue();
+            currentValue = ramp.getNext();
 			if (i < 100)
             {
                 Assert::IsFalse(ramp.isActive());
@@ -76,13 +76,13 @@ TEST_CLASS(RampTest)
 			if (i < 100)
             {
                 Assert::IsFalse(ramp.isActive());
-                Assert::AreEqual(ramp.getStart(), ramp.getCurrentVal());
+                Assert::AreEqual(ramp.getStart(), ramp.read());
             }
             if (i == 100) { ramp.start();}
-            if (i == 350) { Assert::AreEqual(0.5f, ramp.getCurrentVal(), 0.00001f); }
+            if (i == 350) { Assert::AreEqual(0.5f, ramp.read(), 0.00001f); }
             if (i > 600) 
             {
-                Assert::AreEqual(ramp.getStop(), ramp.getCurrentVal(), 0.00001f);
+                Assert::AreEqual(ramp.getStop(), ramp.read(), 0.00001f);
                 Assert::IsFalse(ramp.isActive());
             }
             ramp.tick();
@@ -98,16 +98,16 @@ TEST_CLASS(RampTest)
 			if (i < 100)
             {
                 Assert::IsFalse(ramp.isActive());
-                Assert::AreEqual(ramp.getStart(), ramp.getCurrentVal());
+                Assert::AreEqual(ramp.getStart(), ramp.read());
             }
             if (i == 100) 
             { 
                 ramp.start();
             }
-            if (i == 350) { Assert::AreEqual(0.1f, ramp.getCurrentVal(), 0.00001f); }
+            if (i == 350) { Assert::AreEqual(0.1f, ramp.read(), 0.00001f); }
             if (i > 600) 
             {
-                Assert::AreEqual(ramp.getStop(), ramp.getCurrentVal(), 0.00001f);
+                Assert::AreEqual(ramp.getStop(), ramp.read(), 0.00001f);
                 Assert::IsFalse(ramp.isActive());
             }
             ramp.tick();
@@ -123,15 +123,15 @@ TEST_CLASS(RampTest)
 			if (i < 100)
             {
                 Assert::IsFalse(ramp.isActive());
-                Assert::AreEqual(ramp.getStart(), ramp.getCurrentVal());
+                Assert::AreEqual(ramp.getStart(), ramp.read());
             }
             if (i == 100) { ramp.start(); }
-            if (i == 350) { Assert::AreEqual(0.5f, ramp.getCurrentVal(), 0.00001f); }
+            if (i == 350) { Assert::AreEqual(0.5f, ramp.read(), 0.00001f); }
             if (i == 400) {ramp.reset();}
-            if (i == 650) { Assert::AreEqual(0.5f, ramp.getCurrentVal(), 0.00001f); }
+            if (i == 650) { Assert::AreEqual(0.5f, ramp.read(), 0.00001f); }
             if (i > 900)
             {
-                Assert::AreEqual(ramp.getStop(), ramp.getCurrentVal(), 0.00001f);
+                Assert::AreEqual(ramp.getStop(), ramp.read(), 0.00001f);
                 Assert::IsFalse(ramp.isActive());
             }
             ramp.tick();
