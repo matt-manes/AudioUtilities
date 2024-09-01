@@ -16,10 +16,20 @@ float AudioUtilities::DelayLine::DelayLine::read()
     return val;
 }
 
+int AudioUtilities::DelayLine::DelayLine::getSampleRate() const
+{
+    return sampleRate;
+}
+
 void AudioUtilities::DelayLine::DelayLine::setSampleRate(int rate)
 {
     sampleRate = rate;
     setDelayMilliseconds(delayMilliseconds);
+}
+
+float AudioUtilities::DelayLine::DelayLine::getDelayMilliseconds() const
+{
+    return delayMilliseconds;
 }
 
 void AudioUtilities::DelayLine::DelayLine::setDelayMilliseconds(float ms)
@@ -32,8 +42,28 @@ void AudioUtilities::DelayLine::DelayLine::setDelayMilliseconds(float ms)
     readex = writedex.getFull() + size() * 0.5f;
 }
 
+AudioUtilities::Index::Index *AudioUtilities::DelayLine::DelayLine::getReadex()
+{
+    return &readex;
+}
+
+float AudioUtilities::DelayLine::DelayLine::getReadSpeed() const
+{
+    return readSpeed;
+}
+
+void AudioUtilities::DelayLine::DelayLine::setReadSpeed(float speed)
+{
+    readSpeed = speed;
+}
+
 void AudioUtilities::DelayLine::DelayLine::resize(int size)
 {
     CircleBuff::resize(size);
     readex.setMax(size - 1);
+}
+
+void AudioUtilities::DelayLine::DelayLine::incrementRead()
+{
+    readex += readSpeed;
 }

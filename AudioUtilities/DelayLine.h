@@ -21,25 +21,25 @@ namespace AudioUtilities
 
             float read();
 
-            int getSampleRate() const { return sampleRate; }
+            int getSampleRate() const;
 
             void setSampleRate(int rate);
 
-            float getDelayMilliseconds() const { return delayMilliseconds; }
+            float getDelayMilliseconds() const;
 
             void setDelayMilliseconds(float ms);
 
-            Index::Index *getReadex() { return &readex; }
+            Index::Index *getReadex();
 
-            float getReadSpeed() const { return readSpeed; }
+            float getReadSpeed() const;
 
-            void setReadSpeed(float speed) { readSpeed = speed; }
+            void setReadSpeed(float speed);
 
           protected:
 
             void resize(int size) override;
 
-            virtual void incrementRead() { readex += readSpeed; }
+            virtual void incrementRead();
 
             Index::Index readex;
             int writeSpeed = 1;
