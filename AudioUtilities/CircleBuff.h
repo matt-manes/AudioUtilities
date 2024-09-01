@@ -19,76 +19,52 @@ namespace AudioUtilities
             // ========================== Write ========================== //
 
             // Write to the buffer then increment write position
-            virtual void write(T val) { data[writedex++.getLower()] = val; }
+            virtual void write(T val);
 
             // Write to the buffer at the given index, wrapping if necessary
             // Note: does not increment internal write pointer
-            virtual void write(T val, int index)
-            {
-                data[index % data.size()] = val;
-            }
+            virtual void write(T val, int index);
 
             // Write to the buffer at the given `Index`
             // Note: does not increment internal write pointer
-            virtual void write(T val, Index::Index index)
-            {
-                index.setBounds(0, data.size() - 1);
-                write(val, index.getLower());
-            }
+            virtual void write(T val, Index::Index index);
 
             // ========================== Read ========================== //
 
-            T operator[](int index) const { return data[index % data.size()]; }
+            T operator[](int index) const;
 
             // Will only work with types that define `+`, `*`, and `-` operators
             // and can be converted to a float.
             // Interpolates between two nearest values if `index` has a decimal
             // component
-            float operator[](Index::Index index) const
-            {
-                index.setBounds(0, data.size() - 1);
-                return Blend::blend(
-                    data[index.getLower()],
-                    data[index.getUpper()],
-                    index.getDecimal()
-                );
-            }
+            float operator[](Index::Index index) const;
 
             // Will only work with types that define `+`, `*`, and `-` operators
             // and can be converted to a float.
             // Interpolates between two nearest values if `index` has a decimal
             // component
-            float operator[](float index) const
-            {
-                Index::Index readex(data.size() - 1);
-                readex = index;
-                return operator[](readex);
-            }
+            float operator[](float index) const;
 
             // ===========================================================  //
 
             // The size of this buffer
-            int size() { return data.size(); }
+            int size();
 
             // Resize the buffer and write indexer
-            virtual void resize(int size)
-            {
-                data.resize(size);
-                writedex.setMax(size - 1);
-            }
+            virtual void resize(int size);
 
             // Reset all indicies to default values
-            void flush() { data.assign(data.size(), T()); }
+            void flush();
 
             // Returns a pointer to the writing `Index` object
-            Index::Index *getWritedex() { return &writedex; }
+            Index::Index *getWritedex();
 
             // Returns the index that will be written to on the next call to
             // `write(val)`
-            int getWritePosition() { return writedex.getLower(); }
+            int getWritePosition();
 
             // Returns the underlying data vector
-            std::vector<T> *getData() { return &data; }
+            std::vector<T> *getData();
 
           protected:
 
@@ -96,5 +72,77 @@ namespace AudioUtilities
 
             Index::Index writedex;
         };
+
+        template <class T> inline void CircleBuff<T>::write(T val)
+        {
+            data[writedex++.getLower()] = val;
+        }
+
+        template <class T> inline void CircleBuff<T>::write(T val, int index)
+        {
+            data[index % data.size()] = val;
+        }
+
+        template <class T>
+        inline void CircleBuff<T>::write(T val, Index::Index index)
+        {
+            index.setBounds(0, data.size() - 1);
+            write(val, index.getLower());
+        }
+
+        template <class T> inline T CircleBuff<T>::operator[](int index) const
+        {
+            return data[index % data.size()];
+        }
+
+        template <class T>
+        inline float CircleBuff<T>::operator[](Index::Index index) const
+        {
+            index.setBounds(0, data.size() - 1);
+            return Blend::blend(
+                data[index.getLower()],
+                data[index.getUpper()],
+                index.getDecimal()
+            );
+        }
+
+        template <class T>
+        inline float CircleBuff<T>::operator[](float index) const
+        {
+            Index::Index readex(data.size() - 1);
+            readex = index;
+            return operator[](readex);
+        }
+
+        template <class T> inline int CircleBuff<T>::size()
+        {
+            return data.size();
+        }
+
+        template <class T> inline void CircleBuff<T>::resize(int size)
+        {
+            data.resize(size);
+            writedex.setMax(size - 1);
+        }
+
+        template <class T> inline void CircleBuff<T>::flush()
+        {
+            data.assign(data.size(), T());
+        }
+
+        template <class T> inline Index::Index *CircleBuff<T>::getWritedex()
+        {
+            return &writedex;
+        }
+
+        template <class T> inline int CircleBuff<T>::getWritePosition()
+        {
+            return writedex.getLower();
+        }
+
+        template <class T> inline std::vector<T> *CircleBuff<T>::getData()
+        {
+            return &data;
+        }
     } // namespace CircleBuff
 } // namespace AudioUtilities
