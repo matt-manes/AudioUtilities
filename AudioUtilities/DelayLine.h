@@ -30,7 +30,7 @@ namespace AudioUtilities
             // Returns the sample at the current read index.
             // Increments the read index according to `readSpeed` after if
             // `autoIncrementReadex` is `true`.
-            float read();
+            virtual float read();
 
             int getSampleRate() const;
 
