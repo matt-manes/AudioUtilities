@@ -37,9 +37,9 @@ namespace AudioUtilities
             );
 
             // Apply fade gain to sample.
-            inline float apply(float val) { return val * read(); }
+            float apply(float val) { return val * read(); }
 
-            inline Direction getDirection() const { return direction; }
+            Direction getDirection() const { return direction; }
 
             void setDirection(Direction direction);
 

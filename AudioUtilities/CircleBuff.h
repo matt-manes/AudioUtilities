@@ -88,7 +88,7 @@ namespace AudioUtilities
             int getWritePosition() { return writedex.getLower(); }
 
             // Returns the underlying data vector
-            inline std::vector<T> *getData() { return &data; }
+            std::vector<T> *getData() { return &data; }
 
           protected:
 

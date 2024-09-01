@@ -28,12 +28,12 @@ namespace AudioUtilities
 
             Range(T start, T stop) { setBounds(start, stop); }
 
-            inline bool operator==(const Range &other) const
+            bool operator==(const Range &other) const
             {
                 return (start == other.start) && (stop == other.stop);
             }
 
-            inline void setBounds(T start, T stop)
+            void setBounds(T start, T stop)
             {
                 this->start = start;
                 this->stop = stop;
@@ -41,23 +41,23 @@ namespace AudioUtilities
                 calcDelta();
             }
 
-            inline void setStart(T val)
+            void setStart(T val)
             {
                 start = val;
                 parseLowerUpper();
                 calcDelta();
             }
 
-            inline void setStop(T val)
+            void setStop(T val)
             {
                 stop = val;
                 parseLowerUpper();
                 calcDelta();
             }
 
-            inline T getStart() const { return start; }
+            T getStart() const { return start; }
 
-            inline T getStop() const { return stop; }
+            T getStop() const { return stop; }
 
             // Returns the lower of `start` and `stop`
             T getLower() const { return std::fmin(start, stop); }
@@ -66,13 +66,13 @@ namespace AudioUtilities
             T getUpper() const { return std::fmax(start, stop); }
 
             // Returns the difference between `stop` and `start`.
-            inline T getDelta() const { return delta; }
+            T getDelta() const { return delta; }
 
             // Returns the absolute value of the delta
             T getAbsDelta() const { return std::abs(delta); }
 
             // Swaps the `start` and `stop` values of this instance.
-            inline void reverse()
+            void reverse()
             {
                 float tmp = start;
                 start = stop;
@@ -82,18 +82,18 @@ namespace AudioUtilities
             }
 
             // Returns a new `Range` with opposite `start` and `stop` values.
-            inline Range getReversed() const { return Range(stop, start); }
+            Range getReversed() const { return Range(stop, start); }
 
             // Returns `true` if `start` is greater than `stop`.
-            inline bool isNegative() const { return delta < 0.0f; }
+            bool isNegative() const { return delta < 0.0f; }
 
             // Returns the size of each step if this range were divided into
             // `numSteps`.
-            inline float getStepSize(int numSteps) { return delta / numSteps; }
+            float getStepSize(int numSteps) { return delta / numSteps; }
 
             // Returns the number of steps required to get from `start` to
             // `stop` with `stepSize`.
-            inline int getNumSteps(float stepSize)
+            int getNumSteps(float stepSize)
             {
                 return std::abs((int)std::ceil(delta / stepSize));
             }
@@ -113,7 +113,7 @@ namespace AudioUtilities
             -Upper: Checks inclusive of whichever of `start` or
             `stop` is the highest value.
             */
-            inline bool contains(
+            bool contains(
                 float val, Inclusion boundsInclusion = Inclusion::Both
             )
             {
@@ -144,10 +144,10 @@ namespace AudioUtilities
             T upper;
             T delta;
 
-            inline void calcDelta() { delta = stop - start; }
+            void calcDelta() { delta = stop - start; }
 
             // Sets `upper` and `lower` to appropriate `start`/`stop` values.
-            inline void parseLowerUpper()
+            void parseLowerUpper()
             {
                 if (start < stop)
                 {

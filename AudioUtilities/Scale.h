@@ -31,10 +31,10 @@ namespace AudioUtilities
             Range::Range<float> a, b;
 
             // Convert `value` from range `a` to range `b`.
-            inline float fromAToB(float val) const { return scale(val, a, b); }
+            float fromAToB(float val) const { return scale(val, a, b); }
 
             // Convert `value` from range `b` to range `a`.
-            inline float fromBToA(float val) const { return scale(val, b, a); }
+            float fromBToA(float val) const { return scale(val, b, a); }
         };
 
     } // namespace Scale

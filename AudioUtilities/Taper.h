@@ -54,29 +54,26 @@ namespace AudioUtilities
             void setCurveFactor(float val);
 
             // Set the expected input minimum.
-            inline void setInputMin(float val) { inputRange.setStart(val); }
+            void setInputMin(float val) { inputRange.setStart(val); }
 
             // Set the expected input maximum.
-            inline void setInputMax(float val) { inputRange.setStop(val); }
+            void setInputMax(float val) { inputRange.setStop(val); }
 
             // Set the expected input range.
-            inline void setInputRange(Range::Range<float> range)
+            void setInputRange(Range::Range<float> range)
             {
                 inputRange = range;
             }
 
             // Set the expected input range.
-            inline void setInputRange(float min, float max)
+            void setInputRange(float min, float max)
             {
                 inputRange = Range::Range<float>(min, max);
             }
 
-            inline Range::Range<float> getInputRange() const
-            {
-                return inputRange;
-            }
+            Range::Range<float> getInputRange() const { return inputRange; }
 
-            inline float getCurveFactor() const { return curveFactor; }
+            float getCurveFactor() const { return curveFactor; }
 
           private:
 
@@ -94,7 +91,7 @@ namespace AudioUtilities
 
             void calcCoeffs();
 
-            inline float calcTaperedValue(float val) const
+            float calcTaperedValue(float val) const
             {
                 return b * (exp(c * val) - 1);
             }

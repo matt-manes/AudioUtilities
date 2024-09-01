@@ -71,26 +71,26 @@ namespace AudioUtilities
             void setIndex(float val);
 
             // Returns the current floating point index.
-            inline float getFull() const { return full; }
+            float getFull() const { return full; }
 
             // Returns the smallest integer in the indexing range that is larger
             // than `full`.
             // If `full` is between `max` and `paddedMax`, `upper` will be
             // equal to the minimum index.
-            inline int getUpper() const { return upper; }
+            int getUpper() const { return upper; }
 
             // Returns the largest integer in the indexing range that is less
             // than `full`.
-            inline int getLower() const { return lower; }
+            int getLower() const { return lower; }
 
             // Returns the decimal portion of the index.
-            inline float getDecimal() const { return decimal; }
+            float getDecimal() const { return decimal; }
 
             // Returns the minimum index
-            inline int getMin() const { return bounds.getStart(); }
+            int getMin() const { return bounds.getStart(); }
 
             // Returns the maximum index
-            inline int getMax() const { return bounds.getStop(); }
+            int getMax() const { return bounds.getStop(); }
 
           private:
 
@@ -103,7 +103,7 @@ namespace AudioUtilities
             // between the max and min.
             Range::Range<int> paddedZone, paddedBounds;
 
-            inline int getPaddedMax() { return paddedBounds.getStop(); }
+            int getPaddedMax() { return paddedBounds.getStop(); }
 
             // Wraps index to be between the minimum and padded max, inclusive
             // of `min`.
@@ -111,13 +111,13 @@ namespace AudioUtilities
 
             // Returns `true` if index is not between minimum index and
             // padded max, inclusive of minimum.
-            inline bool isOutOfBounds()
+            bool isOutOfBounds()
             {
                 return !(paddedBounds.contains(full, Range::Inclusion::Start));
             };
 
             // Checks if `full` is between max and padded max.
-            inline bool isInPaddedZone()
+            bool isInPaddedZone()
             {
                 return paddedZone.contains(full, Range::Inclusion::None);
             }
