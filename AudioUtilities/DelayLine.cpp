@@ -9,6 +9,13 @@ AudioUtilities::DelayLine::DelayLine::DelayLine(
     setDelayMilliseconds(delayMilliseconds);
 }
 
+void AudioUtilities::DelayLine::DelayLine::write(float val)
+{
+
+    data[writedex.getLower()] = val;
+    writedex += writeSpeed;
+}
+
 float AudioUtilities::DelayLine::DelayLine::read()
 {
     float val = operator[](readex);
@@ -55,6 +62,16 @@ float AudioUtilities::DelayLine::DelayLine::getReadSpeed() const
 void AudioUtilities::DelayLine::DelayLine::setReadSpeed(float speed)
 {
     readSpeed = speed;
+}
+
+float AudioUtilities::DelayLine::DelayLine::getWriteSpeed() const
+{
+    return writeSpeed;
+}
+
+void AudioUtilities::DelayLine::DelayLine::setWriteSpeed(float speed)
+{
+    writeSpeed = speed;
 }
 
 void AudioUtilities::DelayLine::DelayLine::resize(int size)

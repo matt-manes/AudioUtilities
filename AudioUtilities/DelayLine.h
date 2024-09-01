@@ -23,9 +23,13 @@ namespace AudioUtilities
             // Set to `false` to handle updating the read index manually.
             bool autoIncrementReadex = true;
 
+            // Write to the buffer then increment write position by
+            // `writeSpeed`.
+            void write(float val) override;
+
             // Returns the sample at the current read index.
-            // Increments the read index after if `autoIncrementReadex` is
-            // `true`.
+            // Increments the read index according to `readSpeed` after if
+            // `autoIncrementReadex` is `true`.
             float read();
 
             int getSampleRate() const;
@@ -46,6 +50,14 @@ namespace AudioUtilities
             // Set the amount the read `Index` is moved when
             // `autoIncrementReadex` is `true`.
             void setReadSpeed(float speed);
+
+            // The amount the write `Index` is moved when calling
+            // `write(sample)`.
+            float getWriteSpeed() const;
+
+            // Set the amount the write `Index` is moved wehn calling
+            // `write(sample)`.
+            void setWriteSpeed(float speed);
 
           protected:
 
