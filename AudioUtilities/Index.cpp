@@ -1,5 +1,24 @@
 #include "Index.h"
 
+AudioUtilities::Index::Index::Index() { setBounds(0, 1); }
+
+AudioUtilities::Index::Index::Index(int maxIndex) { setBounds(0, maxIndex); }
+
+AudioUtilities::Index::Index::Index(int minIndex, int maxIndex)
+{
+    setBounds(minIndex, maxIndex);
+}
+
+AudioUtilities::Index::Index::Index(Range::Range<int> bounds)
+{
+    setBounds(bounds);
+}
+
+int AudioUtilities::Index::Index::getPaddedMax()
+{
+    return paddedBounds.getStop();
+}
+
 void AudioUtilities::Index::Index::wrap()
 {
     if (isOutOfBounds())
@@ -14,6 +33,16 @@ void AudioUtilities::Index::Index::wrap()
                       + bounds.getLower();
         full = (float)wrapped + decimal;
     }
+}
+
+bool AudioUtilities::Index::Index::isOutOfBounds()
+{
+    return !(paddedBounds.contains(full, Range::Inclusion::Start));
+}
+
+bool AudioUtilities::Index::Index::isInPaddedZone()
+{
+    return paddedZone.contains(full, Range::Inclusion::None);
 }
 
 void AudioUtilities::Index::Index::setMin(int val)
@@ -41,6 +70,11 @@ void AudioUtilities::Index::Index::setBounds(Range::Range<int> bounds)
     splitIndex();
 }
 
+AudioUtilities::Range::Range<int> AudioUtilities::Index::Index::getBounds()
+{
+    return bounds;
+}
+
 void AudioUtilities::Index::Index::splitIndex()
 {
     lower = (int)full;
@@ -64,6 +98,18 @@ void AudioUtilities::Index::Index::setIndex(float val)
     wrap();
     splitIndex();
 }
+
+float AudioUtilities::Index::Index::getFull() const { return full; }
+
+int AudioUtilities::Index::Index::getUpper() const { return upper; }
+
+int AudioUtilities::Index::Index::getLower() const { return lower; }
+
+float AudioUtilities::Index::Index::getDecimal() const { return decimal; }
+
+int AudioUtilities::Index::Index::getMin() const { return bounds.getStart(); }
+
+int AudioUtilities::Index::Index::getMax() const { return bounds.getStop(); }
 
 AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator=(float val)
 {

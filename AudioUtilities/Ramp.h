@@ -37,6 +37,12 @@ namespace AudioUtilities
                 float curveFactor = 0.5f
             );
 
+            // Whether this ramp automatically restarts after finishing.
+            bool freeRunning = false;
+
+            // Whether this ramp changes directions after each completion.
+            bool bidirectional = false;
+
             // Should be called every loop where one loop is equivalent to one
             // sample at the sample rate.
             void tick();
@@ -46,73 +52,64 @@ namespace AudioUtilities
             float getNext();
 
             // Start the ramp.
-            void start() { active = true; }
+            void start();
 
             // Stop the ramp, freezing the current value.
-            void stop() { active = false; }
+            void stop();
 
             // Reset the ramp. If called while the ramp is active, it will jump
             // back to the starting value and continue ramping.
             void reset();
 
             // Returns `true` if the current ramp value is at the stop value.
-            bool isFinished() const { return finished; }
+            bool isFinished() const;
 
             // Returns whether the ramp is currently ramping. A ramp can be
             // inactive, but unfinished, i.e. paused.
-            bool isActive() const { return active; }
+            bool isActive() const;
 
             // Returns `true` if this ramp is a falling ramp, i.e. the stop
             // value is less than the start value.
-            bool isReverse() const { return range.isNegative(); }
+            bool isReverse() const;
 
             // Returns the step size added every `tick()` to the ramp value when
             // the ramp is active.
-            float getStepSize() const { return stepSize; }
+            float getStepSize() const;
 
             // Returns the current value of the ramp.
             // Any curve for this ramp is applied when this function is called.
             // For best performance, call this function once and store in a
             // local variable.
-            float read() { return curve.apply(currentVal); }
+            float read();
 
             // The starting value of this ramp.
-            float getStart() const { return range.getStart(); }
+            float getStart() const;
 
             // Set the start value of this ramp.
             void setStart(float val);
 
             // The stop value of this ramp.
-            float getStop() const { return range.getStop(); }
+            float getStop() const;
 
             // Set the stop value of this ramp.
             void setStop(float val);
 
-            float getCurve() { return curve.getCurveFactor(); }
+            float getCurve();
 
             // Set the curve of the ramp. Values are constrained to the interval
             // 0.01<->0.99.
-            void setCurve(float val) { curve.setCurveFactor(val); }
+            void setCurve(float val);
 
             // Returns this ramp's length in samples.
-            int getLengthSamples() const { return lengthSamples; }
+            int getLengthSamples() const;
 
             // Set ramp length in samples.
             void setLengthSamples(int samples);
 
             // Set ramp length in milliseconds.
-            void setLengthMilliseconds(float milliseconds)
-            {
-                setLengthSamples(
-                    SampleRate::fromMilliseconds(milliseconds, sampleRate)
-                );
-            }
+            void setLengthMilliseconds(float milliseconds);
 
             void setLengthSteps(int numSteps);
-
-            void setFreeRunning(bool val) { freeRunning = val; }
-
-            void setBidirectional(bool val) { bidirectional = val; }
 
             // Reverse this ramp's direction.
             void reverse();
@@ -127,22 +124,14 @@ namespace AudioUtilities
             float currentVal = 0.0f;
             float stepSize;
             Taper::Taper curve;
-            bool freeRunning = false;
-            bool bidirectional = false;
 
-            void calculateStepSize()
-            {
-                stepSize = range.getStepSize(lengthSamples);
-            }
+            void calculateStepSize();
 
-            // Make sure `currentVal` doesn't accidentally exceed stop value
-            void clampCurrentVal()
-            {
-                currentVal = Clamp::clamp(currentVal, range);
-            }
+            // Make sure `currentVal` doesn't accidentally exceed stop value.
+            void clampCurrentVal();
 
             // This can be overridden to implement different ramp shapes.
-            virtual void incrementCurrentVal() { currentVal += stepSize; }
+            virtual void incrementCurrentVal();
 
             bool stopValueReached() const;
         };

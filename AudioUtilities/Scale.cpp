@@ -19,3 +19,21 @@ float AudioUtilities::Scale::scale(
             / oldRange.getDelta())
            + newRange.getStart();
 }
+
+AudioUtilities::Scale::Scale::Scale(
+    Range::Range<float> a, Range::Range<float> b
+)
+{
+    this->a = a;
+    this->b = b;
+}
+
+float AudioUtilities::Scale::Scale::fromAToB(float val) const
+{
+    return scale(val, a, b);
+}
+
+float AudioUtilities::Scale::Scale::fromBToA(float val) const
+{
+    return scale(val, b, a);
+}

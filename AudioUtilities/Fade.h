@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Ramp.h"
+#include "SampleRate.h"
 
 namespace AudioUtilities
 {
@@ -29,6 +30,7 @@ namespace AudioUtilities
                 Direction direction = Direction::In,
                 float curveFactor = 0.5f
             );
+
             Fade(
                 int lengthSamples,
                 int sampleRate,
@@ -37,10 +39,12 @@ namespace AudioUtilities
             );
 
             // Apply fade gain to sample.
-            float apply(float val) { return val * read(); }
+            float apply(float val);
 
-            Direction getDirection() const { return direction; }
+            // Will either be `Direction::In` or `Direction::Out`.
+            Direction getDirection() const;
 
+            // Set whether this is a fade in or a fade out.
             void setDirection(Direction direction);
 
           private:

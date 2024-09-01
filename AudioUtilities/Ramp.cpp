@@ -70,11 +70,30 @@ float AudioUtilities::Ramp::Ramp::getNext()
     return read();
 }
 
+void AudioUtilities::Ramp::Ramp::start() { active = true; }
+
+void AudioUtilities::Ramp::Ramp::stop() { active = false; }
+
 void AudioUtilities::Ramp::Ramp::reset()
 {
     currentVal = range.getStart();
     finished = false;
 }
+
+bool AudioUtilities::Ramp::Ramp::isFinished() const { return finished; }
+
+bool AudioUtilities::Ramp::Ramp::isActive() const { return active; }
+
+bool AudioUtilities::Ramp::Ramp::isReverse() const
+{
+    return range.isNegative();
+}
+
+float AudioUtilities::Ramp::Ramp::getStepSize() const { return stepSize; }
+
+float AudioUtilities::Ramp::Ramp::read() { return curve.apply(currentVal); }
+
+float AudioUtilities::Ramp::Ramp::getStart() const { return range.getStart(); }
 
 void AudioUtilities::Ramp::Ramp::setStart(float value)
 {
@@ -82,16 +101,35 @@ void AudioUtilities::Ramp::Ramp::setStart(float value)
     calculateStepSize();
 }
 
+float AudioUtilities::Ramp::Ramp::getStop() const { return range.getStop(); }
+
 void AudioUtilities::Ramp::Ramp::setStop(float value)
 {
     range.setStop(value);
     calculateStepSize();
 }
 
+float AudioUtilities::Ramp::Ramp::getCurve() { return curve.getCurveFactor(); }
+
+void AudioUtilities::Ramp::Ramp::setCurve(float val)
+{
+    curve.setCurveFactor(val);
+}
+
+int AudioUtilities::Ramp::Ramp::getLengthSamples() const
+{
+    return lengthSamples;
+}
+
 void AudioUtilities::Ramp::Ramp::setLengthSamples(int samples)
 {
     lengthSamples = samples;
     calculateStepSize();
+}
+
+void AudioUtilities::Ramp::Ramp::setLengthMilliseconds(float milliseconds)
+{
+    setLengthSamples(SampleRate::fromMilliseconds(milliseconds, sampleRate));
 }
 
 void AudioUtilities::Ramp::Ramp::setLengthSteps(int numSteps)
@@ -105,6 +143,21 @@ void AudioUtilities::Ramp::Ramp::reverse()
 {
     range.reverse();
     calculateStepSize();
+}
+
+void AudioUtilities::Ramp::Ramp::calculateStepSize()
+{
+    stepSize = range.getStepSize(lengthSamples);
+}
+
+void AudioUtilities::Ramp::Ramp::clampCurrentVal()
+{
+    currentVal = Clamp::clamp(currentVal, range);
+}
+
+void AudioUtilities::Ramp::Ramp::incrementCurrentVal()
+{
+    currentVal += stepSize;
 }
 
 bool AudioUtilities::Ramp::Ramp::stopValueReached() const

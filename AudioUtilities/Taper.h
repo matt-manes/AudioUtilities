@@ -54,26 +54,20 @@ namespace AudioUtilities
             void setCurveFactor(float val);
 
             // Set the expected input minimum.
-            void setInputMin(float val) { inputRange.setStart(val); }
+            void setInputMin(float val);
 
             // Set the expected input maximum.
-            void setInputMax(float val) { inputRange.setStop(val); }
+            void setInputMax(float val);
 
             // Set the expected input range.
-            void setInputRange(Range::Range<float> range)
-            {
-                inputRange = range;
-            }
+            void setInputRange(Range::Range<float> range);
 
             // Set the expected input range.
-            void setInputRange(float min, float max)
-            {
-                inputRange = Range::Range<float>(min, max);
-            }
+            void setInputRange(float min, float max);
 
-            Range::Range<float> getInputRange() const { return inputRange; }
+            Range::Range<float> getInputRange() const;
 
-            float getCurveFactor() const { return curveFactor; }
+            float getCurveFactor() const;
 
           private:
 
@@ -89,12 +83,10 @@ namespace AudioUtilities
                 float curveFactor = 0.5f, float min = 0.0f, float max = 1.0f
             );
 
+            // Calculate coefficients to be used when applying the taper.
             void calcCoeffs();
 
-            float calcTaperedValue(float val) const
-            {
-                return b * (exp(c * val) - 1);
-            }
+            float calcTaperedValue(float val) const;
         };
     } // namespace Taper
 } // namespace AudioUtilities

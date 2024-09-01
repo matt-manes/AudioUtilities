@@ -59,6 +59,37 @@ void AudioUtilities::Taper::Taper::setCurveFactor(float val)
     calcCoeffs();
 }
 
+void AudioUtilities::Taper::Taper::setInputMin(float val)
+{
+    inputRange.setStart(val);
+}
+
+void AudioUtilities::Taper::Taper::setInputMax(float val)
+{
+    inputRange.setStop(val);
+}
+
+void AudioUtilities::Taper::Taper::setInputRange(Range::Range<float> range)
+{
+    inputRange = range;
+}
+
+void AudioUtilities::Taper::Taper::setInputRange(float min, float max)
+{
+    inputRange = Range::Range<float>(min, max);
+}
+
+AudioUtilities::Range::Range<float> AudioUtilities::Taper::Taper::getInputRange(
+) const
+{
+    return inputRange;
+}
+
+float AudioUtilities::Taper::Taper::getCurveFactor() const
+{
+    return curveFactor;
+}
+
 void AudioUtilities::Taper::Taper::calcCoeffs()
 {
     // `curveFactor` of `0.5f` will cause a divide by 0
@@ -69,4 +100,9 @@ void AudioUtilities::Taper::Taper::calcCoeffs()
     float diff = curveFactor - min;
     b = (diff * diff) / bDenominator;
     c = 2 * log((max - curveFactor) / diff);
+}
+
+float AudioUtilities::Taper::Taper::calcTaperedValue(float val) const
+{
+    return b * (exp(c * val) - 1);
 }

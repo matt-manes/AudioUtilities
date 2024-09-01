@@ -25,16 +25,16 @@ namespace AudioUtilities
         {
           public:
 
-            Index() { setBounds(0, 1); }
+            Index();
 
             // Initialize with a maximum index.
-            Index(int maxIndex) { setBounds(0, maxIndex); }
+            Index(int maxIndex);
 
             // Initialize with minimum and maximum indicies.
-            Index(int minIndex, int maxIndex) { setBounds(minIndex, maxIndex); }
+            Index(int minIndex, int maxIndex);
 
             // Initialize with `Range` instance
-            Index(Range::Range<int> bounds) { setBounds(bounds); }
+            Index(Range::Range<int> bounds);
 
             Index &operator++();
             Index operator++(int);
@@ -65,32 +65,32 @@ namespace AudioUtilities
             void setBounds(Range::Range<int> bounds);
 
             // Returns the start and stop indicies
-            Range::Range<int> getBounds() { return bounds; }
+            Range::Range<int> getBounds();
 
             // Sets index to the given value, wrapping if neccessary.
             void setIndex(float val);
 
             // Returns the current floating point index.
-            float getFull() const { return full; }
+            float getFull() const;
 
             // Returns the smallest integer in the indexing range that is larger
             // than `full`.
             // If `full` is between `max` and `paddedMax`, `upper` will be
             // equal to the minimum index.
-            int getUpper() const { return upper; }
+            int getUpper() const;
 
             // Returns the largest integer in the indexing range that is less
             // than `full`.
-            int getLower() const { return lower; }
+            int getLower() const;
 
             // Returns the decimal portion of the index.
-            float getDecimal() const { return decimal; }
+            float getDecimal() const;
 
             // Returns the minimum index
-            int getMin() const { return bounds.getStart(); }
+            int getMin() const;
 
             // Returns the maximum index
-            int getMax() const { return bounds.getStop(); }
+            int getMax() const;
 
           private:
 
@@ -103,7 +103,7 @@ namespace AudioUtilities
             // between the max and min.
             Range::Range<int> paddedZone, paddedBounds;
 
-            int getPaddedMax() { return paddedBounds.getStop(); }
+            int getPaddedMax();
 
             // Wraps index to be between the minimum and padded max, inclusive
             // of `min`.
@@ -111,16 +111,10 @@ namespace AudioUtilities
 
             // Returns `true` if index is not between minimum index and
             // padded max, inclusive of minimum.
-            bool isOutOfBounds()
-            {
-                return !(paddedBounds.contains(full, Range::Inclusion::Start));
-            };
+            bool isOutOfBounds();
 
             // Checks if `full` is between max and padded max.
-            bool isInPaddedZone()
-            {
-                return paddedZone.contains(full, Range::Inclusion::None);
-            }
+            bool isInPaddedZone();
 
             // Uses current value of `full` to set `lower`, `upper`, and
             // `decimal` members.

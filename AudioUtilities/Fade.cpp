@@ -1,5 +1,4 @@
 #include "Fade.h"
-#include "SampleRate.h"
 
 AudioUtilities::Fade::Fade::Fade(
     float lengthMilliseconds,
@@ -18,6 +17,13 @@ AudioUtilities::Fade::Fade::Fade(
     : Ramp::Ramp(lengthSamples, sampleRate, 0.0f, 1.0f, curveFactor)
 {
     setDirection(direction);
+}
+
+float AudioUtilities::Fade::Fade::apply(float val) { return val * read(); }
+
+AudioUtilities::Fade::Direction AudioUtilities::Fade::Fade::getDirection() const
+{
+    return direction;
 }
 
 void AudioUtilities::Fade::Fade::setDirection(Direction direction)
