@@ -14,7 +14,10 @@ namespace AudioUtilities
 
             CircleBuff() {};
 
-            CircleBuff(int size) { resize(size); }
+            CircleBuff(int size)
+            {
+                resize(size);
+            }
 
             // ========================== Write ========================== //
 
@@ -78,7 +81,7 @@ namespace AudioUtilities
             int getWritePosition();
 
             // Returns the underlying data vector
-            std::vector<T> *getData();
+            std::vector<T> &getData();
 
           protected:
 
@@ -170,9 +173,9 @@ namespace AudioUtilities
             return writedex.getLower();
         }
 
-        template <class T> inline std::vector<T> *CircleBuff<T>::getData()
+        template <class T> inline std::vector<T> &CircleBuff<T>::getData()
         {
-            return &data;
+            return data;
         }
     } // namespace CircleBuff
 } // namespace AudioUtilities
