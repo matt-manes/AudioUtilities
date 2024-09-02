@@ -31,6 +31,20 @@ namespace AudioUtilities
 
             // ========================== Read ========================== //
 
+            T read(int index) const;
+
+            // Will only work with types that define `+`, `*`, and `-` operators
+            // and can be converted to a float.
+            // Interpolates between two nearest values if `index` has a decimal
+            // component
+            float read(Index::Index index) const;
+
+            // Will only work with types that define `+`, `*`, and `-` operators
+            // and can be converted to a float.
+            // Interpolates between two nearest values if `index` has a decimal
+            // component
+            float read(float index) const;
+
             T operator[](int index) const;
 
             // Will only work with types that define `+`, `*`, and `-` operators
@@ -90,13 +104,13 @@ namespace AudioUtilities
             write(val, index.getLower());
         }
 
-        template <class T> inline T CircleBuff<T>::operator[](int index) const
+        template <class T> inline T CircleBuff<T>::read(int index) const
         {
             return data[index % data.size()];
         }
 
         template <class T>
-        inline float CircleBuff<T>::operator[](Index::Index index) const
+        inline float CircleBuff<T>::read(Index::Index index) const
         {
             index.setBounds(0, data.size() - 1);
             return Blend::blend(
@@ -106,12 +120,28 @@ namespace AudioUtilities
             );
         }
 
-        template <class T>
-        inline float CircleBuff<T>::operator[](float index) const
+        template <class T> inline float CircleBuff<T>::read(float index) const
         {
             Index::Index readex(data.size() - 1);
             readex = index;
-            return operator[](readex);
+            return read(readex);
+        }
+
+        template <class T> inline T CircleBuff<T>::operator[](int index) const
+        {
+            return read(index);
+        }
+
+        template <class T>
+        inline float CircleBuff<T>::operator[](Index::Index index) const
+        {
+            return read(index);
+        }
+
+        template <class T>
+        inline float CircleBuff<T>::operator[](float index) const
+        {
+            return read(index);
         }
 
         template <class T> inline int CircleBuff<T>::size()
