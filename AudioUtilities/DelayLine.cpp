@@ -154,6 +154,8 @@ void AudioUtilities::DelayLine::DelayLine::removeTap(int index)
     taps.erase(taps.begin() + index);
 }
 
+int AudioUtilities::DelayLine::DelayLine::getNumTaps() { return taps.size(); }
+
 void AudioUtilities::DelayLine::DelayLine::resize(int size)
 {
     CircleBuff::resize(size);

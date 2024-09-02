@@ -110,6 +110,8 @@ namespace AudioUtilities
             // Remove the specfied tap.
             void removeTap(int index);
 
+            int getNumTaps();
+
           protected:
 
             void resize(int size) override;
