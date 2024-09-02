@@ -2,12 +2,57 @@
 
 #include "CircleBuff.h"
 #include "SampleRate.h"
+#include "Blend.h"
+#include "Clamp.h"
 #include <vector>
 
 namespace AudioUtilities
 {
     namespace DelayLine
     {
+        class Tap
+        {
+          public:
+
+            Tap() {}
+
+            float getReadSpeed() const;
+
+            void setReadSpeed(float val);
+
+            float getGain() const;
+
+            void setGain(float val);
+
+            int getDelaySamples() const;
+
+            void setDelaySamples(int samples);
+
+            float getDelayRatio() const;
+
+            // `val` is constrained b/t 0 and 1.0
+            void setDelayRatio(float val);
+
+            void increment();
+
+            Index::Index &getIndex();
+
+            bool isPrimary() const;
+
+            void setPrimary(bool primary);
+
+          private:
+
+            Index::Index index;
+            float gain = 1.0f;
+            float readSpeed = 1.0f;
+            // Not sure how to ensure these are synced w/o storing sample rate
+            // and max delay time
+            float delayRatio = 1.0f;
+            int delaySamples = 1;
+            bool primaryTap = false;
+        };
+
         /*
         A variable speed delay line inheriting from `CircleBuff` in
         "CircleBuff.h".
@@ -21,11 +66,11 @@ namespace AudioUtilities
             DelayLine(float delayMilliseconds, int sampleRate);
 
             // Set to `false` to handle updating the read index manually.
-            bool autoIncrementReadex = true;
+            bool autoIncrement = true;
 
             // Write to the buffer then increment write position by
             // `writeSpeed`.
-            void write(float val) override;
+            virtual void write(float val) override;
 
             // Returns the sample at the current read index.
             // Increments the read index according to `readSpeed` after if
@@ -38,18 +83,13 @@ namespace AudioUtilities
 
             float getDelayMilliseconds() const;
 
-            void setDelayMilliseconds(float ms);
+            virtual void setDelayMilliseconds(float ms);
 
-            // Returns a pointer to the read `Index` object.
-            Index::Index *getReadex();
-
-            // The amount the read `Index` is moved when `autoIncrementReadex`
-            // is `true`.
-            float getReadSpeed() const;
-
-            // Set the amount the read `Index` is moved when
-            // `autoIncrementReadex` is `true`.
+            // Set the read speed for all taps.
             void setReadSpeed(float speed);
+
+            // Set the read speed for a specific tap.
+            void setReadSpeed(float speed, int tapNum);
 
             // The amount the write `Index` is moved when calling
             // `write(sample)`.
@@ -59,16 +99,23 @@ namespace AudioUtilities
             // `write(sample)`.
             void setWriteSpeed(float speed);
 
+            // Returns a reference to the specified tap.
+            // `0` is always the primary tap
+            Tap &tap(int index);
+
+            // Add a tap to the delay.
+            // `delayRatio` is clamped between 0.0f and 1.0f.
+            void addTap(float delayRatio);
+
+            // Remove the specfied tap.
+            void removeTap(int index);
+
           protected:
 
             void resize(int size) override;
 
-            // Increment `readex` according to `readspeed`.
-            virtual void incrementRead();
-
-            Index::Index readex;
+            std::vector<Tap> taps;
             int writeSpeed = 1;
-            float readSpeed = 1;
             int sampleRate = 1;
             int delaySamples = 1;
             float delayMilliseconds = 1.0f;
