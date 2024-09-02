@@ -22,6 +22,7 @@
     <ClInclude Include="Blend.h" />
     <ClInclude Include="CircleBuff.h" />
     <ClInclude Include="Clamp.h" />
+    <ClInclude Include="Delay.h" />
     <ClInclude Include="DelayLine.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="Index.h" />
@@ -33,10 +34,15 @@
     <ClInclude Include="Taper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Blend.cpp" />
+    <ClCompile Include="Clamp.cpp" />
+    <ClCompile Include="Delay.cpp" />
     <ClCompile Include="DelayLine.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Index.cpp" />
+    <ClCompile Include="Polarity.cpp" />
     <ClCompile Include="Ramp.cpp" />
+    <ClCompile Include="Range.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Taper.cpp" />
   </ItemGroup>
