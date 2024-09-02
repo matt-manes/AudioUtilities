@@ -35,15 +35,14 @@ namespace AudioUtilities
 
             void increment();
 
-            Index::Index &getIndex();
-
             bool isPrimary() const;
 
             void setPrimary(bool primary);
 
+            Index::Index index;
+
           private:
 
-            Index::Index index;
             float gain = 1.0f;
             float readSpeed = 1.0f;
             // Not sure how to ensure these are synced w/o storing sample rate
@@ -114,7 +113,14 @@ namespace AudioUtilities
 
           protected:
 
+            // Set the buffer size and configure taps.
             void resize(int size) override;
+
+            // Configures the given tap
+            void configureTap(int tapNum);
+
+            // Configures all taps
+            void configureTaps();
 
             std::vector<Tap> taps;
             int writeSpeed = 1;

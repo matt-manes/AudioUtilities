@@ -1,15 +1,24 @@
 #include "DelayLine.h"
 
-float AudioUtilities::DelayLine::Tap::getReadSpeed() const { return readSpeed; }
+float AudioUtilities::DelayLine::Tap::getReadSpeed() const
+{
+    return readSpeed;
+}
 
 void AudioUtilities::DelayLine::Tap::setReadSpeed(float val)
 {
     readSpeed = val;
 }
 
-float AudioUtilities::DelayLine::Tap::getGain() const { return gain; }
+float AudioUtilities::DelayLine::Tap::getGain() const
+{
+    return gain;
+}
 
-void AudioUtilities::DelayLine::Tap::setGain(float val) { gain = val; }
+void AudioUtilities::DelayLine::Tap::setGain(float val)
+{
+    gain = val;
+}
 
 int AudioUtilities::DelayLine::Tap::getDelaySamples() const
 {
@@ -19,7 +28,6 @@ int AudioUtilities::DelayLine::Tap::getDelaySamples() const
 void AudioUtilities::DelayLine::Tap::setDelaySamples(int samples)
 {
     delaySamples = samples;
-    index.setMax(samples);
 }
 
 float AudioUtilities::DelayLine::Tap::getDelayRatio() const
@@ -29,17 +37,18 @@ float AudioUtilities::DelayLine::Tap::getDelayRatio() const
 
 void AudioUtilities::DelayLine::Tap::setDelayRatio(float val)
 {
-    val = Clamp::clamp(val, 0.0f, 1.0f);
+    delayRatio = Clamp::clamp(val, 0.0f, 1.0f);
 }
 
-void AudioUtilities::DelayLine::Tap::increment() { index += readSpeed; }
-
-AudioUtilities::Index::Index &AudioUtilities::DelayLine::Tap::getIndex()
+void AudioUtilities::DelayLine::Tap::increment()
 {
-    return index;
+    index += readSpeed;
 }
 
-bool AudioUtilities::DelayLine::Tap::isPrimary() const { return primaryTap; }
+bool AudioUtilities::DelayLine::Tap::isPrimary() const
+{
+    return primaryTap;
+}
 
 void AudioUtilities::DelayLine::Tap::setPrimary(bool primary)
 {
@@ -56,9 +65,9 @@ AudioUtilities::DelayLine::DelayLine::DelayLine(
     : CircleBuff(),
       sampleRate(sampleRate)
 {
-    setDelayMilliseconds(delayMilliseconds);
     addTap(1.0f);
     taps[0].setPrimary(true);
+    setDelayMilliseconds(delayMilliseconds);
 }
 
 void AudioUtilities::DelayLine::DelayLine::write(float val)
@@ -72,8 +81,11 @@ float AudioUtilities::DelayLine::DelayLine::read()
     float val = 0.0f;
     for (int i = 0; i < taps.size(); ++i)
     {
-        val += CircleBuff::read(taps[i].getIndex()) * taps[i].getGain();
-        if (autoIncrement) { taps[i].increment(); }
+        val += (CircleBuff::read(taps[i].index) * taps[i].getGain());
+        if (autoIncrement)
+        {
+            taps[i].increment();
+        }
     }
     return val;
 }
@@ -100,12 +112,6 @@ void AudioUtilities::DelayLine::DelayLine::setDelayMilliseconds(float ms)
     delaySamples = SampleRate::fromMilliseconds(delayMilliseconds, sampleRate);
     // 2x samples b/c pretending 1 buffer is 2
     resize(2 * delaySamples);
-    for (int i = 0; i < taps.size(); ++i)
-    {
-        taps[i].setDelaySamples(delaySamples * taps[i].getDelayRatio());
-        Index::Index index = taps[i].getIndex();
-        index = writedex.getFull() + taps[i].getDelaySamples();
-    }
 }
 
 void AudioUtilities::DelayLine::DelayLine::setReadSpeed(float speed)
@@ -142,25 +148,46 @@ void AudioUtilities::DelayLine::DelayLine::addTap(float delayRatio)
 {
     Tap tap;
     tap.setDelayRatio(delayRatio);
-    tap.setDelaySamples(delayRatio * delaySamples);
-    tap.getIndex() = writedex.getFull() + tap.getDelaySamples();
     taps.push_back(tap);
+    configureTap(taps.size() - 1);
 }
 
 void AudioUtilities::DelayLine::DelayLine::removeTap(int index)
 {
     // Can't remove only or primary tap
-    if (taps.size() == 1 || taps[index].isPrimary()) { return; }
+    if (taps.size() == 1 || taps[index].isPrimary())
+    {
+        return;
+    }
     taps.erase(taps.begin() + index);
 }
 
-int AudioUtilities::DelayLine::DelayLine::getNumTaps() { return taps.size(); }
+int AudioUtilities::DelayLine::DelayLine::getNumTaps()
+{
+    return taps.size();
+}
 
 void AudioUtilities::DelayLine::DelayLine::resize(int size)
 {
     CircleBuff::resize(size);
+    configureTaps();
+}
+
+void AudioUtilities::DelayLine::DelayLine::configureTap(int tapNum)
+{
+    int buffSize = size();
+    // Buffer is 2x the size of max delay
+    int delaySamples = buffSize * 0.5f * taps[tapNum].getDelayRatio();
+    taps[tapNum].setDelaySamples(delaySamples);
+    taps[tapNum].index.setMax(buffSize - 1);
+    // Higher indicies will wrap and hit the written data sooner
+    taps[tapNum].index = writedex.getFull() - delaySamples + 1;
+}
+
+void AudioUtilities::DelayLine::DelayLine::configureTaps()
+{
     for (int i = 0; i < taps.size(); ++i)
     {
-        taps[i].getIndex().setMax(size - 1);
+        configureTap(i);
     }
 }
