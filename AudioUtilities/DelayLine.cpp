@@ -43,6 +43,7 @@ void AudioUtilities::DelayLine::Tap::setDelayRatio(float val)
 void AudioUtilities::DelayLine::Tap::increment()
 {
     index += readSpeed;
+    staticIndex += 1;
 }
 
 bool AudioUtilities::DelayLine::Tap::isPrimary() const
@@ -55,13 +56,16 @@ void AudioUtilities::DelayLine::Tap::setPrimary(bool primary)
     primaryTap = primary;
 }
 
+AudioUtilities::Index::Index AudioUtilities::DelayLine::Tap::getStaticIndex()
+{
+    return staticIndex;
+}
+
 // =============================================================================
 // =============================================================================
 // =============================================================================
 
-AudioUtilities::DelayLine::DelayLine::DelayLine(
-    float delayMilliseconds, int sampleRate
-)
+AudioUtilities::DelayLine::DelayLine::DelayLine(float delayMilliseconds, int sampleRate)
     : CircleBuff(),
       sampleRate(sampleRate)
 {
@@ -137,9 +141,7 @@ void AudioUtilities::DelayLine::DelayLine::setWriteSpeed(float speed)
     writeSpeed = speed;
 }
 
-AudioUtilities::DelayLine::Tap &AudioUtilities::DelayLine::DelayLine::tap(
-    int index
-)
+AudioUtilities::DelayLine::Tap &AudioUtilities::DelayLine::DelayLine::tap(int index)
 {
     return taps[index];
 }

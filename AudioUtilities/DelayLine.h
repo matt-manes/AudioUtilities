@@ -39,6 +39,8 @@ namespace AudioUtilities
 
             void setPrimary(bool primary);
 
+            Index::Index getStaticIndex();
+
             Index::Index index;
 
           private:
@@ -50,6 +52,8 @@ namespace AudioUtilities
             float delayRatio = 1.0f;
             int delaySamples = 1;
             bool primaryTap = false;
+            // This index only gets incremented by one.
+            Index::Index staticIndex;
         };
 
         /*
