@@ -4,8 +4,7 @@ namespace AudioUtilities
 {
     namespace SampleRate
     {
-        // Returns the corresponding number of samples for `seconds` given
-        // `sampleRate`.
+        // Returns the corresponding number of samples for `seconds` given `sampleRate`.
         inline int fromSeconds(float seconds, int sampleRate)
         {
             return (int)(seconds * sampleRate);
@@ -18,8 +17,7 @@ namespace AudioUtilities
             return (int)(fromSeconds(milliseconds, sampleRate) * 0.001f);
         }
 
-        // Returns the corespoding number of seconds for `samples` given
-        // `sampleRate`.
+        // Returns the corespoding number of seconds for `samples` given `sampleRate`.
         inline float toSeconds(int samples, int sampleRate)
         {
             return (float)samples / (float)sampleRate;
@@ -33,8 +31,7 @@ namespace AudioUtilities
         }
 
         /*
-        Convert between seconds/milliseconds and samples for a given sample
-        rate.
+        Convert between seconds/milliseconds and samples for a given sample rate.
         */
         class Converter
         {
@@ -66,7 +63,10 @@ namespace AudioUtilities
                 return SampleRate::toMilliseconds(samples, sampleRate);
             }
 
-            int getSampleRate() const { return sampleRate; }
+            int getSampleRate() const
+            {
+                return sampleRate;
+            }
 
             void setSampleRate(int sampleRate)
             {

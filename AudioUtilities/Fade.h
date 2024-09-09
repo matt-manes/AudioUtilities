@@ -16,9 +16,9 @@ namespace AudioUtilities
 
         /*
         Apply an in or out fade to a signal.
-        Be sure to call this instance's `tick()` method in every loop that
-        corresponds to the given sample rate. See "Ramp.h" for more complete
-        documentation.
+        Be sure to call this instance's `tick()` method in every loop that corresponds to
+        the given sample rate.
+        See "Ramp.h" for more complete documentation.
         */
         class Fade : public Ramp::Ramp
         {
@@ -54,7 +54,7 @@ namespace AudioUtilities
             // use direction enum instead
             using Ramp::isReverse;
 
-            // Fade start and stop should always be 0 and 1
+            // Fade start and stop should always be 0 and 1.
             using Ramp::setStart;
             using Ramp::setStop;
         };

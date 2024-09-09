@@ -10,10 +10,10 @@ namespace AudioUtilities
     namespace Ramp
     {
         /*
-        Generate simple rising or falling ramps with optional exponential or
-        log curvature. Be sure to either call this instance's `tick()` method
-        or `getNextValue()` method in every loop that corresponds to the given
-        sample rate.
+        Generate simple rising or falling ramps with optional exponential or log
+        curvature.
+        Be sure to either call this instance's `tick()` method or
+        `getNextValue()` method in every loop that corresponds to the given sample rate.
         */
         class Ramp
         {
@@ -43,8 +43,8 @@ namespace AudioUtilities
             // Whether this ramp changes directions after each completion.
             bool bidirectional = false;
 
-            // Should be called every loop where one loop is equivalent to one
-            // sample at the sample rate.
+            // Should be called every loop where one loop is equivalent to one sample at
+            // the sample rate.
             void tick();
 
             // This will call `tick()` for you and return the new value.
@@ -57,29 +57,30 @@ namespace AudioUtilities
             // Stop the ramp, freezing the current value.
             void stop();
 
-            // Reset the ramp. If called while the ramp is active, it will jump
-            // back to the starting value and continue ramping.
+            // Reset the ramp.
+            // If called while the ramp is active, it will jump back to the starting value
+            // and continue ramping.
             void reset();
 
             // Returns `true` if the current ramp value is at the stop value.
             bool isFinished() const;
 
-            // Returns whether the ramp is currently ramping. A ramp can be
-            // inactive, but unfinished, i.e. paused.
+            // Returns whether the ramp is currently ramping.
+            // A ramp can be inactive, but unfinished, i.e. paused.
             bool isActive() const;
 
-            // Returns `true` if this ramp is a falling ramp, i.e. the stop
-            // value is less than the start value.
+            // Returns `true` if this ramp is a falling ramp, i.e. the stop value is less
+            // than the start value.
             bool isReverse() const;
 
-            // Returns the step size added every `tick()` to the ramp value when
-            // the ramp is active.
+            // Returns the step size added every `tick()` to the ramp value when the ramp
+            // is active.
             float getStepSize() const;
 
             // Returns the current value of the ramp.
             // Any curve for this ramp is applied when this function is called.
-            // For best performance, call this function once and store in a
-            // local variable.
+            // For best performance, call this function once and store in a local
+            // variable.
             float read();
 
             // The starting value of this ramp.

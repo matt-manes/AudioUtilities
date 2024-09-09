@@ -28,7 +28,7 @@ namespace AudioUtilities
 
             Range(T start, T stop);
 
-            bool operator==(const Range &other) const;
+            bool operator==(const Range& other) const;
 
             void setBounds(T start, T stop);
 
@@ -72,8 +72,8 @@ namespace AudioUtilities
             /*
             Returns `true` if `value` is within this range.
 
-            `boundsInclusion` sets how the range's endpoints are considered when
-            checking `value`.
+            `boundsInclusion` sets how the range's endpoints are considered when checking
+            `value`.
 
             -Both: Checks inclusive of `start` and `stop`.
             -None: Checks exclusive of `start` and `stop`.
@@ -84,9 +84,7 @@ namespace AudioUtilities
             -Upper: Checks inclusive of whichever of `start` or
             `stop` is the highest value.
             */
-            bool contains(
-                float val, Inclusion boundsInclusion = Inclusion::Both
-            );
+            bool contains(float val, Inclusion boundsInclusion = Inclusion::Both);
 
           private:
 

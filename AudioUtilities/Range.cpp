@@ -11,13 +11,12 @@ template <class T> AudioUtilities::Range::Range<T>::Range(T start, T stop)
 }
 
 template <class T>
-bool AudioUtilities::Range::Range<T>::operator==(const Range &other) const
+bool AudioUtilities::Range::Range<T>::operator==(const Range& other) const
 {
     return (start == other.start) && (stop == other.stop);
 }
 
-template <class T>
-void AudioUtilities::Range::Range<T>::setBounds(T start, T stop)
+template <class T> void AudioUtilities::Range::Range<T>::setBounds(T start, T stop)
 {
     this->start = start;
     this->stop = stop;
@@ -79,8 +78,7 @@ template <class T> void AudioUtilities::Range::Range<T>::reverse()
 }
 
 template <class T>
-AudioUtilities::Range::Range<T> AudioUtilities::Range::Range<T>::getReversed(
-) const
+AudioUtilities::Range::Range<T> AudioUtilities::Range::Range<T>::getReversed() const
 {
     return Range(stop, start);
 }
@@ -90,22 +88,18 @@ template <class T> bool AudioUtilities::Range::Range<T>::isNegative() const
     return delta < 0.0f;
 }
 
-template <class T>
-float AudioUtilities::Range::Range<T>::getStepSize(int numSteps)
+template <class T> float AudioUtilities::Range::Range<T>::getStepSize(int numSteps)
 {
     return delta / numSteps;
 }
 
-template <class T>
-int AudioUtilities::Range::Range<T>::getNumSteps(float stepSize)
+template <class T> int AudioUtilities::Range::Range<T>::getNumSteps(float stepSize)
 {
     return std::abs((int)std::ceil(delta / stepSize));
 }
 
 template <class T>
-bool AudioUtilities::Range::Range<T>::contains(
-    float val, Inclusion boundsInclusion
-)
+bool AudioUtilities::Range::Range<T>::contains(float val, Inclusion boundsInclusion)
 {
     switch (boundsInclusion)
     {
@@ -115,12 +109,18 @@ bool AudioUtilities::Range::Range<T>::contains(
         case Upper: return upperInclusion(val);
         case Start:
         {
-            if (isNegative()) { return upperInclusion(val); }
+            if (isNegative())
+            {
+                return upperInclusion(val);
+            }
             return lowerInclusion(val);
         }
         case Stop:
         {
-            if (isNegative()) { return lowerInclusion(val); }
+            if (isNegative())
+            {
+                return lowerInclusion(val);
+            }
             return upperInclusion(val);
         }
     }
@@ -150,14 +150,12 @@ template <class T> bool AudioUtilities::Range::Range<T>::inclusion(float val)
     return (lower <= val) && (val <= upper);
 }
 
-template <class T>
-bool AudioUtilities::Range::Range<T>::lowerInclusion(float val)
+template <class T> bool AudioUtilities::Range::Range<T>::lowerInclusion(float val)
 {
     return (lower <= val) && (val < upper);
 }
 
-template <class T>
-bool AudioUtilities::Range::Range<T>::upperInclusion(float val)
+template <class T> bool AudioUtilities::Range::Range<T>::upperInclusion(float val)
 {
     return (lower < val) && (val <= upper);
 }

@@ -16,8 +16,7 @@ AudioUtilities::Ramp::Ramp::Ramp(
     float stopVal,
     float curveFactor
 )
-    : lengthSamples(SampleRate::fromMilliseconds(lengthMilliseconds, sampleRate)
-      ),
+    : lengthSamples(SampleRate::fromMilliseconds(lengthMilliseconds, sampleRate)),
       sampleRate(sampleRate),
       curve(curveFactor, startVal, stopVal),
       currentVal(startVal)
@@ -27,11 +26,7 @@ AudioUtilities::Ramp::Ramp::Ramp(
 }
 
 AudioUtilities::Ramp::Ramp::Ramp(
-    int lengthSamples,
-    int sampleRate,
-    float startVal,
-    float stopVal,
-    float curveFactor
+    int lengthSamples, int sampleRate, float startVal, float stopVal, float curveFactor
 )
     : lengthSamples(lengthSamples),
       sampleRate(sampleRate),
@@ -44,17 +39,25 @@ AudioUtilities::Ramp::Ramp::Ramp(
 
 void AudioUtilities::Ramp::Ramp::tick()
 {
-    if (!active) { return; }
+    if (!active)
+    {
+        return;
+    }
     incrementCurrentVal();
-    // Nesting these to minimize cycles spent comparing `currentVal`
-    // to `stopVal`.
+    // Nesting these to minimize cycles spent comparing `currentVal` to `stopVal`.
     if (active && !finished)
     {
         if (stopValueReached())
         {
             clampCurrentVal();
-            if (bidirectional) { reverse(); }
-            if (freeRunning) { reset(); }
+            if (bidirectional)
+            {
+                reverse();
+            }
+            if (freeRunning)
+            {
+                reset();
+            }
             else
             {
                 active = false;
@@ -70,9 +73,15 @@ float AudioUtilities::Ramp::Ramp::getNext()
     return read();
 }
 
-void AudioUtilities::Ramp::Ramp::start() { active = true; }
+void AudioUtilities::Ramp::Ramp::start()
+{
+    active = true;
+}
 
-void AudioUtilities::Ramp::Ramp::stop() { active = false; }
+void AudioUtilities::Ramp::Ramp::stop()
+{
+    active = false;
+}
 
 void AudioUtilities::Ramp::Ramp::reset()
 {
@@ -80,20 +89,35 @@ void AudioUtilities::Ramp::Ramp::reset()
     finished = false;
 }
 
-bool AudioUtilities::Ramp::Ramp::isFinished() const { return finished; }
+bool AudioUtilities::Ramp::Ramp::isFinished() const
+{
+    return finished;
+}
 
-bool AudioUtilities::Ramp::Ramp::isActive() const { return active; }
+bool AudioUtilities::Ramp::Ramp::isActive() const
+{
+    return active;
+}
 
 bool AudioUtilities::Ramp::Ramp::isReverse() const
 {
     return range.isNegative();
 }
 
-float AudioUtilities::Ramp::Ramp::getStepSize() const { return stepSize; }
+float AudioUtilities::Ramp::Ramp::getStepSize() const
+{
+    return stepSize;
+}
 
-float AudioUtilities::Ramp::Ramp::read() { return curve.apply(currentVal); }
+float AudioUtilities::Ramp::Ramp::read()
+{
+    return curve.apply(currentVal);
+}
 
-float AudioUtilities::Ramp::Ramp::getStart() const { return range.getStart(); }
+float AudioUtilities::Ramp::Ramp::getStart() const
+{
+    return range.getStart();
+}
 
 void AudioUtilities::Ramp::Ramp::setStart(float value)
 {
@@ -101,7 +125,10 @@ void AudioUtilities::Ramp::Ramp::setStart(float value)
     calculateStepSize();
 }
 
-float AudioUtilities::Ramp::Ramp::getStop() const { return range.getStop(); }
+float AudioUtilities::Ramp::Ramp::getStop() const
+{
+    return range.getStop();
+}
 
 void AudioUtilities::Ramp::Ramp::setStop(float value)
 {
@@ -109,7 +136,10 @@ void AudioUtilities::Ramp::Ramp::setStop(float value)
     calculateStepSize();
 }
 
-float AudioUtilities::Ramp::Ramp::getCurve() { return curve.getCurveFactor(); }
+float AudioUtilities::Ramp::Ramp::getCurve()
+{
+    return curve.getCurveFactor();
+}
 
 void AudioUtilities::Ramp::Ramp::setCurve(float val)
 {
@@ -134,8 +164,8 @@ void AudioUtilities::Ramp::Ramp::setLengthMilliseconds(float milliseconds)
 
 void AudioUtilities::Ramp::Ramp::setLengthSteps(int numSteps)
 {
-    // Could just use `setLengthSamples()` instead, but `setLengthSteps()`
-    // is more intuitive naming.
+    // Could just use `setLengthSamples()` instead, but `setLengthSteps()` is more
+    // intuitive naming.
     setLengthSamples(numSteps);
 }
 
@@ -162,6 +192,9 @@ void AudioUtilities::Ramp::Ramp::incrementCurrentVal()
 
 bool AudioUtilities::Ramp::Ramp::stopValueReached() const
 {
-    if (isReverse()) { return currentVal <= getStop(); }
+    if (isReverse())
+    {
+        return currentVal <= getStop();
+    }
     return currentVal >= getStop();
 }

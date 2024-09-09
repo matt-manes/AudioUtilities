@@ -5,9 +5,7 @@ float AudioUtilities::Scale::scale(
 )
 {
     return scale(
-        val,
-        Range::Range<float>(oldMin, oldMax),
-        Range::Range<float>(newMin, newMax)
+        val, Range::Range<float>(oldMin, oldMax), Range::Range<float>(newMin, newMax)
     );
 }
 
@@ -15,14 +13,11 @@ float AudioUtilities::Scale::scale(
     float val, Range::Range<float> oldRange, Range::Range<float> newRange
 )
 {
-    return (((val - oldRange.getStart()) * newRange.getDelta())
-            / oldRange.getDelta())
+    return (((val - oldRange.getStart()) * newRange.getDelta()) / oldRange.getDelta())
            + newRange.getStart();
 }
 
-AudioUtilities::Scale::Scale::Scale(
-    Range::Range<float> a, Range::Range<float> b
-)
+AudioUtilities::Scale::Scale::Scale(Range::Range<float> a, Range::Range<float> b)
 {
     this->a = a;
     this->b = b;
