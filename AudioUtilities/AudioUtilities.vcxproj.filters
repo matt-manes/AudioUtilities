@@ -39,7 +39,7 @@
     <ClInclude Include="Fade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DelayLine.h">
+    <ClInclude Include="DelayBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scale.h">
@@ -48,10 +48,19 @@
     <ClInclude Include="Range.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CircleBuff.h">
+    <ClInclude Include="CircleBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Delay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PingPongBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Feedback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayTap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +77,7 @@
     <ClCompile Include="Fade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DelayLine.cpp">
+    <ClCompile Include="DelayBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scale.cpp">
@@ -87,6 +96,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Delay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayTap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Feedback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PingPongBuff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

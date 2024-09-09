@@ -1,4 +1,4 @@
-#include "../AudioUtilities/CircleBuff.h"
+#include "../AudioUtilities/CircleBuffer.h"
 #include "../AudioUtilities/Range.h"
 #include "CppUnitTest.h"
 
@@ -15,18 +15,18 @@ namespace CircleBuffTest
 
         // Verify the buffer is size 10 and filled with values 0->9 in order,
         // unless `verifyFlush` is `true`, in which case verify all values are 0
-        void verifyBuffer(CircleBuff::CircleBuff<int> &buff,
+        void verifyBuffer(Buffer::BlendableCircleBuffer<float> &buff,
                           bool verifyFlush = false)
         {
             Assert::AreEqual(10, buff.size());
             for (int i = 0; i < buff.size(); ++i)
             {
-                if (verifyFlush) {Assert::AreEqual(0, buff[i]);}
-                else {Assert::AreEqual(i, buff[i]);}
+                if (verifyFlush) {Assert::AreEqual(0.0f, buff[i]);}
+                else {Assert::AreEqual((float)i, buff[i]);}
             }
         }
 
-        void verifyAndFlush(CircleBuff::CircleBuff<int> &buff)
+        void verifyAndFlush(Buffer::BlendableCircleBuffer<float> &buff)
         {
             verifyBuffer(buff);
             buff.flush();
@@ -35,7 +35,7 @@ namespace CircleBuffTest
 
         TEST_METHOD(WriteTest)
         {
-            AudioUtilities::CircleBuff::CircleBuff<int> buff(10);
+            AudioUtilities::Buffer::BlendableCircleBuffer<float> buff(10);
             verifyBuffer(buff, true);
             // First overload: give value, internal write increment
             // (buff.size() * 2 is to ensure proper index wrapping
@@ -64,7 +64,7 @@ namespace CircleBuffTest
 
         TEST_METHOD(ResizeTest)
         {
-            AudioUtilities::CircleBuff::CircleBuff<int> buff(10);
+            AudioUtilities::Buffer::BlendableCircleBuffer<float> buff(10);
             for (int i = 0; i < buff.size() * 1000; ++i)
             {
                 buff.write(i);
@@ -73,12 +73,12 @@ namespace CircleBuffTest
             buff.resize(100);
             Assert::AreEqual(100, buff.size());
             // Test if writedex max value properly upated
-            Assert::AreEqual(buff.size() - 1, buff.getWritedex()->getMax());
+            Assert::AreEqual(buff.size() - 1, buff.getWritedex().getMax());
         }
 
         TEST_METHOD(NonPrimitiveTypeTest)
         {
-            AudioUtilities::CircleBuff::CircleBuff
+            AudioUtilities::Buffer::CircleBuffer
                 <AudioUtilities::Range::Range<int>> buff(10);
             AudioUtilities::Range::Range<int> test;
             for (int i = 0; i < buff.size(); ++i)
@@ -104,12 +104,12 @@ namespace CircleBuffTest
 
         TEST_METHOD(BracketReadOverloadTest)
         {
-            AudioUtilities::CircleBuff::CircleBuff<int> buff(10);
+            AudioUtilities::Buffer::BlendableCircleBuffer<float> buff(10);
             for (int i = 0; i < buff.size(); ++i)
             {
                 buff.write(i);
             }
-            Assert::AreEqual(5, buff[5]);
+            Assert::AreEqual(5.0f, buff[5]);
             Assert::AreEqual(5.5f, buff[5.5f]);
             Assert::AreEqual(5.5f, buff[15.5f]);
             float val = buff[AudioUtilities::Index::Index(

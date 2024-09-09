@@ -20,12 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blend.h" />
-    <ClInclude Include="CircleBuff.h" />
+    <ClInclude Include="CircleBuffer.h" />
     <ClInclude Include="Clamp.h" />
     <ClInclude Include="Delay.h" />
-    <ClInclude Include="DelayLine.h" />
+    <ClInclude Include="DelayBuffer.h" />
+    <ClInclude Include="DelayTap.h" />
     <ClInclude Include="Fade.h" />
+    <ClInclude Include="Feedback.h" />
     <ClInclude Include="Index.h" />
+    <ClInclude Include="PingPongBuffer.h" />
     <ClInclude Include="Ramp.h" />
     <ClInclude Include="Range.h" />
     <ClInclude Include="SampleRate.h" />
@@ -37,9 +40,12 @@
     <ClCompile Include="Blend.cpp" />
     <ClCompile Include="Clamp.cpp" />
     <ClCompile Include="Delay.cpp" />
-    <ClCompile Include="DelayLine.cpp" />
+    <ClCompile Include="DelayBuffer.cpp" />
+    <ClCompile Include="DelayTap.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Feedback.cpp" />
     <ClCompile Include="Index.cpp" />
+    <ClCompile Include="PingPongBuff.cpp" />
     <ClCompile Include="Polarity.cpp" />
     <ClCompile Include="Ramp.cpp" />
     <ClCompile Include="Range.cpp" />
