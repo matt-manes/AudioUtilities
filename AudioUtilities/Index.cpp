@@ -1,8 +1,14 @@
 #include "Index.h"
 
-AudioUtilities::Index::Index::Index() { setBounds(0, 1); }
+AudioUtilities::Index::Index::Index()
+{
+    setBounds(0, 1);
+}
 
-AudioUtilities::Index::Index::Index(int maxIndex) { setBounds(0, maxIndex); }
+AudioUtilities::Index::Index::Index(int maxIndex)
+{
+    setBounds(0, maxIndex);
+}
 
 AudioUtilities::Index::Index::Index(int minIndex, int maxIndex)
 {
@@ -80,15 +86,28 @@ void AudioUtilities::Index::Index::splitIndex()
     lower = (int)full;
     decimal = full - lower;
     upper = lower + 1;
-    if (upper > bounds.getUpper()) { upper = bounds.getLower(); }
+    if (upper > bounds.getUpper())
+    {
+        upper = bounds.getLower();
+    }
 }
 
-AudioUtilities::Range::Range<int> AudioUtilities::Index::Index::
-    enforceBoundsConstraints(Range::Range<int> bounds)
+AudioUtilities::Range::Range<int> AudioUtilities::Index::Index::enforceBoundsConstraints(
+    Range::Range<int> bounds
+)
 {
-    if (bounds.getStart() < 0) { bounds.setStart(0); }
-    if (bounds.getStop() < 0) { bounds.setStop(0); }
-    if (bounds.isNegative()) { bounds.reverse(); }
+    if (bounds.getStart() < 0)
+    {
+        bounds.setStart(0);
+    }
+    if (bounds.getStop() < 0)
+    {
+        bounds.setStop(0);
+    }
+    if (bounds.isNegative())
+    {
+        bounds.reverse();
+    }
     return bounds;
 }
 
@@ -99,77 +118,91 @@ void AudioUtilities::Index::Index::setIndex(float val)
     splitIndex();
 }
 
-float AudioUtilities::Index::Index::getFull() const { return full; }
+float AudioUtilities::Index::Index::getFull() const
+{
+    return full;
+}
 
-int AudioUtilities::Index::Index::getUpper() const { return upper; }
+int AudioUtilities::Index::Index::getUpper() const
+{
+    return upper;
+}
 
-int AudioUtilities::Index::Index::getLower() const { return lower; }
+int AudioUtilities::Index::Index::getLower() const
+{
+    return lower;
+}
 
-float AudioUtilities::Index::Index::getDecimal() const { return decimal; }
+float AudioUtilities::Index::Index::getDecimal() const
+{
+    return decimal;
+}
 
-int AudioUtilities::Index::Index::getMin() const { return bounds.getStart(); }
+int AudioUtilities::Index::Index::getMin() const
+{
+    return bounds.getStart();
+}
 
-int AudioUtilities::Index::Index::getMax() const { return bounds.getStop(); }
+int AudioUtilities::Index::Index::getMax() const
+{
+    return bounds.getStop();
+}
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator=(float val)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator=(float val)
 {
     setIndex(val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator+(float val)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator+(float val)
 {
     setIndex(full + val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator-(float val)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator-(float val)
 {
     setIndex(full - val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator*(float val)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator*(float val)
 {
     setIndex(full * val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator/(float val)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator/(float val)
 {
     setIndex(full / val);
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator+=(float val
-)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator+=(float val)
 {
     *this = *this + val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator-=(float val
-)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator-=(float val)
 {
     *this = *this - val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator*=(float val
-)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator*=(float val)
 {
     *this = *this * val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator/=(float val
-)
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator/=(float val)
 {
     *this = *this / val;
     return *this;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator++()
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator++()
 {
     *this = *this + 1;
     return *this;
@@ -182,7 +215,7 @@ AudioUtilities::Index::Index AudioUtilities::Index::Index::operator++(int)
     return tmp;
 }
 
-AudioUtilities::Index::Index &AudioUtilities::Index::Index::operator--()
+AudioUtilities::Index::Index& AudioUtilities::Index::Index::operator--()
 {
     *this = *this - 1;
     return *this;
